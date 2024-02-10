@@ -5,14 +5,6 @@ from qwirkle.logic import BoardBase, Direction, PlacementStrategy
 from qwirkle.logic.models import Tile
 
 
-def create_row_part(width: int) -> list[None]:
-    return [None for _ in range(width)]
-
-
-def create_segment(width: int, height: int) -> list[list[None]]:
-    return [create_row_part(width) for _ in range(height)]
-
-
 class Board(BoardBase):
     """A qwirkle game board that grows dynamically as pieces are placed"""
 
@@ -39,40 +31,16 @@ class Board(BoardBase):
                 for row in self
             ])
 
-    def _grow_horizontal(self, add_segments: int, dir: Direction) -> None:
-        for _ in range(add_segments):
-            for row in self:
-                row_part = create_row_part(self.segment_size)
-                if dir == Direction.EAST:
-                    row.extend(row_part)
-                elif dir == Direction.WEST:
-                    for ele in reversed(row_part):
-                        row.insert(0, ele)
-                else:
-                    raise ValueError(f'invalid value {dir} for dir')
-
-    def _grow_vertical(self, add_segments: int, dir: Direction) -> None:
-        for _ in range(add_segments):
-            width = len(self[0]) if len(self) > 0 else self.segment_size
-            segment = create_segment(width, self.segment_size)
-            for row_part in segment:
-                if dir == Direction.SOUTH:
-                    self.append(row_part)
-                elif dir == Direction.NORTH:
-                    self.insert(0, row_part)
-                else:
-                    raise ValueError(f'invalid value {dir} for dir')
-
     def _initialize(self, segments: int) -> None:
-        self._grow_vertical(segments, Direction.SOUTH)
-        self._grow_horizontal(segments - 1, Direction.EAST)  # already 1 wide
+        self.placement.grow_vertical(self, segments, Direction.SOUTH)
+        self.placement.grow_horizontal(self, segments - 1, Direction.EAST)  # already 1 wide
 
     def expand_board(self, x: int, y: int, dir: Direction) -> tuple[int, int]:
         if dir in [Direction.NORTH, Direction.SOUTH]:
-            self._grow_vertical(1, dir)
+            self.placement.grow_vertical(self, 1, dir)
             dir = None if dir == Direction.SOUTH else Direction.SOUTH
         elif dir in [Direction.EAST, Direction.WEST]:
-            self._grow_horizontal(1, dir)
+            self.placement.grow_horizontal(self, 1, dir)
             dir = None if dir == Direction.EAST else Direction.EAST
 
         return self.placement.adjust(x, y, dir, self.segment_size)
