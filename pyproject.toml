@@ -3,18 +3,28 @@ name = "qwirkle"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "Kevin McWhirter", email = "klmcw@yahoo.com"},
+    {name = "Kevin McWhirter", email = "klmcw@yahoo.com"}
 ]
-dependencies = [
-    "pygame-ce>=2.4.0",
-]
-requires-python = "==3.12.*"
+license = { text = "MIT" }
 readme = "README.md"
-license = {text = "MIT"}
+
+requires-python = "==3.12.*"
+dependencies = [
+    "pygame-ce>=2.4.0"
+]
 
 
 [tool.pdm]
 distribution = false
 
+
 [tool.pdm.scripts]
 start = "python -m qwirkle"
+clean = { shell = "find . -type d \\( -name __pycache__ -o -name .pytest_cache \\) -exec rm -fr {} \\;" }
+test = "pytest -vv"
+
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.0.0"
+]
