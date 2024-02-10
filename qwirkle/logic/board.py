@@ -48,6 +48,8 @@ class Board(BoardBase):
     def place_tiles(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> int:
         # make sure spot is available
         can_place = self[y][x] is None
+        if not can_place:
+            raise ValueError(f'({x}, {y}) is occupied')
 
         if can_place:
             # expand if need to ...
