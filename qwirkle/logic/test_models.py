@@ -6,7 +6,7 @@ import random
 
 import pytest
 
-from qwirkle.logic.models import Bag, colors, shapes
+from qwirkle.logic.models import Bag, Hand, colors, shapes
 
 
 @pytest.mark.parametrize(
@@ -65,7 +65,7 @@ def test_bag_initially_has_108_tiles():
     assert expected == len(bag)
 
 
-def test_shuffle_randomizes_bag():
+def test_bag_shuffle_randomizes_bag():
     random.seed(math.pi)
 
     bag = Bag(shuffle=False)
@@ -82,3 +82,23 @@ def test_shuffle_randomizes_bag():
     tiles_for_first_shape = bag[:num_tiles_for_first_shape]
 
     assert not all(t.shape != first_shape for t in tiles_for_first_shape)
+
+
+def test_hand_initializes_per_config(app_config) -> None:
+    bag = Bag(shuffle=False)
+
+    hand = Hand(game_bag=bag, **app_config)
+
+    expected_num_tiles = app_config['hand']['tiles']
+    assert expected_num_tiles == len(hand)
+
+
+def test_hand_init_reduces_bag_size(app_config) -> None:
+    bag = Bag(shuffle=False)
+    bag_size = len(bag)
+
+    _ = Hand(game_bag=bag, **app_config)
+
+    expected_num_tiles = app_config['hand']['tiles']
+
+    assert (bag_size - expected_num_tiles) == len(bag)

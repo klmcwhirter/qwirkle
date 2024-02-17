@@ -5,10 +5,11 @@ from pprint import pformat
 
 import pygame as pg
 
-from qwirkle.gui.pygamece_bag_adapter import pygame_ce_bag_adapter
-from qwirkle.gui.pygamece_board_adapter import pygame_ce_board_adapter
+from qwirkle.gui.pygame_ce.bag_adapter import pygame_ce_bag_adapter
+from qwirkle.gui.pygame_ce.board_adapter import pygame_ce_board_adapter
+from qwirkle.gui.pygame_ce.hand_adapter import pygame_ce_hand_adapter
 from qwirkle.logic.board import Board
-from qwirkle.logic.models import Bag
+from qwirkle.logic.models import Bag, Hand
 
 # initialize pygame
 pg.init()
@@ -21,7 +22,7 @@ if not pg.mixer:
 
 class Game:
     def __init__(self) -> None:
-        from ..config import settings
+        from ...config import settings
 
         self.config = settings
         logging.debug(pformat(self.config, sort_dicts=False))
@@ -32,12 +33,6 @@ class Game:
         self._set_window_title()
         self.screen = pg.display.set_mode((self.width, self.height))
 
-        self.bag = Bag(**self.config)
-        self.bag_adapter = pygame_ce_bag_adapter(self.bag)
-
-        self.board = Board(**self.config)
-        self.board_adapter = pygame_ce_board_adapter(self.bag)
-
     def _set_window_title(self, addon: str | None = None) -> None:
         msg = self.config['title'] if addon is None else f'{self.config['title']} - {addon}'
         pg.display.set_caption(msg)
@@ -47,13 +42,25 @@ class Game:
         self.screen.fill(self.config['screen']['bg_color'])
         self.bag_adapter.draw(screen=self.screen)
         self.board_adapter.draw(screen=self.screen)
+        self.draw_hands(screen=self.screen)
+
+    def draw_hands(self, screen: pg.Surface, **_kwargs) -> None:
+        for hand in self.hands:
+            self.hand_adapter.draw(screen, hand=hand)
+
+    def reset(self) -> None:
+        self.bag = Bag(**self.config)
+        self.bag_adapter = pygame_ce_bag_adapter(self.bag)
+
+        self.board = Board(**self.config)
+        self.board_adapter = pygame_ce_board_adapter(self.board)
+
+        self.hands: list[Hand] = [Hand(game_bag=self.bag, **self.config)]
+        self.hand_adapter = pygame_ce_hand_adapter(**self.config)
 
     def run(self) -> None:
-        def reset():
-            ...
-
         try:
-            reset()
+            self.reset()
             clock = pg.time.Clock()
 
             running = True
@@ -78,10 +85,9 @@ class Game:
 
                     else:  # have winner
                         if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                            reset()
+                            self.reset()
 
                 # RENDER YOUR GAME HERE
-                # self._board.update(self.screen, winner)
                 self.draw()
 
                 # flip() the display to put your work on screen

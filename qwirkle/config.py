@@ -26,16 +26,27 @@ settings = {
         {'name': 'blue',   'alias': 'blue',    'code': 'B'},
         {'name': 'purple', 'alias': 'purple',  'code': 'P'},
     ],
+    'hand': {
+        'tiles': 6,
+
+        'font_size': 32,
+        'font_color': 'blue',
+        'padx': 10,
+        'pady': 10,
+    },
     'screen': {
         'width': 1600,
         'height': 1600,
         'bg_color': 'gainsboro',
     },
     'tile': {
-        'color': 'gray',
-        'palette': {
-        },
-        'thickness': 10,
+        'border_color': 'gray',
+        'border_thickness': 3,
+
+        'font_size': 32,
+        'font_color': 'gray',
+        'padx': 10,
+        'pady': 10,
     },
     'title': 'Qwirkle for Two',
 }
