@@ -9,14 +9,13 @@ def test_board_initialized_per_config(app_config) -> None:
     board = Board(**app_config)
 
     board_config = app_config['board']
-    expected_height = board_config['segment-size'] * board_config['initial-segments']
-    assert expected_height == len(board)
+    expected_side_len = board_config['segment-size'] * board_config['initial-segments']
 
-    expected_width = board_config['segment-size'] * board_config['initial-segments']
-    assert all(expected_width == len(r) for r in board)
+    assert expected_side_len == len(board)
+    assert all(expected_side_len == len(r) for r in board)
 
 
-def test_board_place_tiles_occupied(app_config) -> None:
+def test_board_place_tiles_occupied_raises(app_config) -> None:
     board = Board(**app_config)
 
     tile = Tile(colors[0], shapes[0])

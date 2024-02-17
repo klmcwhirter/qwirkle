@@ -1,23 +1,41 @@
 
-from qwirkle.logic.exp_placement import ExpandingPlacementStrategy
+from qwirkle.logic.exp_placement import SegmentExpansionStrategy
 
 settings = {
-    'grid': {
-        'color': 'gray',
-        'thickness': 10,
-    },
-    'screen': {
-        'width': 900,
-        'height': 900,
-        'bg_color': 'gainsboro',
-    },
-    'title': 'Qwirkle',
     'bag': {
         'tile-copies': 3,
+        'font_size': 32,
+        'font_color': 'black',
+        'padx': 10,
+        'pady': 10,
     },
     'board': {
         'initial-segments': 2,
         'segment-size': 6,
-        'placement': ExpandingPlacementStrategy()
+        'expansion': SegmentExpansionStrategy(),
+        'font_size': 32,
+        'font_color': 'black',
+        'padx': 10,
+        'pady': 10,
     },
+    'colors': [
+        {'name': 'red',    'alias': 'red',     'code': 'R'},
+        {'name': 'orange', 'alias': 'orange',  'code': 'O'},
+        {'name': 'yellow', 'alias': 'yellow',  'code': 'Y'},
+        {'name': 'green',  'alias': 'green',   'code': 'G'},
+        {'name': 'blue',   'alias': 'blue',    'code': 'B'},
+        {'name': 'purple', 'alias': 'purple',  'code': 'P'},
+    ],
+    'screen': {
+        'width': 1600,
+        'height': 1600,
+        'bg_color': 'gainsboro',
+    },
+    'tile': {
+        'color': 'gray',
+        'palette': {
+        },
+        'thickness': 10,
+    },
+    'title': 'Qwirkle for Two',
 }

@@ -1,8 +1,8 @@
-''''Tests for expanding placement'''
+''''Tests for expanding the board during placement'''
 
 import pytest
 
-from qwirkle.logic import PlacementStrategy
+from qwirkle.logic import BoardExpansionStrategy
 from qwirkle.logic.board import Board, Direction
 from qwirkle.logic.exp_placement import create_row_part, create_segment
 
@@ -29,6 +29,7 @@ def test_create_segment_has_dimensions(expected_width: int, expected_height: int
 
     assert all(expected_width == len(r) for r in segment)
 
+
 @pytest.mark.parametrize(
     ['dir'],
     [
@@ -38,7 +39,7 @@ def test_create_segment_has_dimensions(expected_width: int, expected_height: int
 )
 def test_exp_can_grow_horizontally(app_config, dir: str) -> None:
     board = Board(**app_config)
-    strategy: PlacementStrategy = app_config['board']['placement']
+    strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
     strategy.grow_horizontal(board, 2, dir)
 
@@ -52,7 +53,7 @@ def test_exp_can_grow_horizontally(app_config, dir: str) -> None:
 
 def test_board_grow_horizontally_throws_with_bad_dir(app_config) -> None:
     board = Board(**app_config)
-    strategy: PlacementStrategy = app_config['board']['placement']
+    strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
     with pytest.raises(ValueError):
         strategy.grow_horizontal(board, 2, 'bogus')
@@ -67,7 +68,7 @@ def test_board_grow_horizontally_throws_with_bad_dir(app_config) -> None:
 )
 def test_board_can_grow_vertically(app_config, dir: str) -> None:
     board = Board(**app_config)
-    strategy: PlacementStrategy = app_config['board']['placement']
+    strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
     strategy.grow_vertical(board, 2, dir)
 
@@ -81,7 +82,7 @@ def test_board_can_grow_vertically(app_config, dir: str) -> None:
 
 def test_board_grow_vertically_throws_with_bad_dir(app_config) -> None:
     board = Board(**app_config)
-    strategy: PlacementStrategy = app_config['board']['placement']
+    strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
     with pytest.raises(ValueError):
         strategy.grow_vertical(board, 2, 'bogus')
@@ -102,7 +103,7 @@ def test_board_grow_vertically_throws_with_bad_dir(app_config) -> None:
 )
 def test_need_to_expand_as_expected(app_config, num_tiles: int, x: int, y: int, dir: Direction, expected: bool) -> None:
     board = Board(**app_config)
-    strategy: PlacementStrategy = app_config['board']['placement']
+    strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
     rc = strategy.need_to_expand(board, num_tiles, x, y, dir)
 

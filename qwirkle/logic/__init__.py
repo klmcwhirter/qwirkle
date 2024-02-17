@@ -16,7 +16,7 @@ class Direction(StrEnum):
     WEST = 'w'
 
 
-class PlacementStrategy(Protocol):
+class BoardExpansionStrategy(Protocol):
     def adjust(x: int, y: int, dir: Direction, increment: int = 1) -> tuple[int, int]:
         ...
 

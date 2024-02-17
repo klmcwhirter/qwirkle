@@ -11,7 +11,7 @@ def create_segment(width: int, height: int) -> list[list[None]]:
     return [create_row_part(width) for _ in range(height)]
 
 
-class ExpandingPlacementStrategy:
+class SegmentExpansionStrategy:
     def adjust(self, x: int, y: int, dir: Direction, increment: int = 1) -> tuple[int, int]:
         if dir == Direction.NORTH:
             return (x, y - increment)

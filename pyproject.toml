@@ -19,6 +19,8 @@ distribution = false
 
 
 [tool.pdm.scripts]
+create_venv = { shell = "pdm venv remove -y in-project; pdm install --prod" }
+install_dev = { shell = "pdm install --dev" }
 start = "python -m qwirkle"
 clean = { shell = "find . -type d \\( -name __pycache__ -o -name .pytest_cache \\) -exec rm -fr {} \\;" }
 test = "pytest -vv"

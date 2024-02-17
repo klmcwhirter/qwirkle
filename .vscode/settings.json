@@ -1,10 +1,15 @@
 {
     "cSpell.words": [
+        "blit",
+        "bottomleft",
+        "bottomright",
         "Criss",
         "KEYDOWN",
         "MOUSEBUTTONUP",
+        "padx",
+        "pady",
         "pygame",
         "qwirkle",
         "vernum"
-    ]
+    ],
 }
