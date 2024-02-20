@@ -15,8 +15,8 @@ class BagDisplayAdapter:
         logging.debug(f'Bag len={len(self.bag)}')
 
         bag_config = self.bag.config['bag']
-        self.font = pg.font.Font(None, bag_config['font_size'])
-        self.font_color = bag_config['font_color']
+        self.font = pg.font.Font(None, bag_config['font-size'])
+        self.font_color = bag_config['font-color']
 
         self.padx = bag_config['padx']
         self.pady = bag_config['pady']

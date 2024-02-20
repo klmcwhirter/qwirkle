@@ -39,7 +39,7 @@ class Game:
 
     def draw(self):
         # fill the screen with a color to wipe away anything from last frame
-        self.screen.fill(self.config['screen']['bg_color'])
+        self.screen.fill(self.config['screen']['bg-color'])
         self.bag_adapter.draw(screen=self.screen)
         self.board_adapter.draw(screen=self.screen)
         self.draw_hands(screen=self.screen)

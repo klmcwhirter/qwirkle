@@ -4,8 +4,8 @@ from qwirkle.logic.exp_placement import SegmentExpansionStrategy
 settings = {
     'bag': {
         'tile-copies': 3,
-        'font_size': 32,
-        'font_color': 'black',
+        'font-size': 16,
+        'font-color': 'black',
         'padx': 10,
         'pady': 10,
     },
@@ -13,8 +13,8 @@ settings = {
         'initial-segments': 2,
         'segment-size': 6,
         'expansion': SegmentExpansionStrategy(),
-        'font_size': 32,
-        'font_color': 'black',
+        'font-size': 16,
+        'font-color': 'black',
         'padx': 10,
         'pady': 10,
     },
@@ -29,22 +29,22 @@ settings = {
     'hand': {
         'tiles': 6,
 
-        'font_size': 32,
-        'font_color': 'blue',
+        'font-size': 16,
+        'font-color': 'blue',
         'padx': 10,
         'pady': 10,
     },
     'screen': {
         'width': 1600,
-        'height': 1600,
-        'bg_color': 'gainsboro',
+        'height': 900,
+        'bg-color': 'gainsboro',
     },
     'tile': {
-        'border_color': 'gray',
-        'border_thickness': 3,
+        'border-color': 'gray',
+        'border-thickness': 3,
 
-        'font_size': 32,
-        'font_color': 'gray',
+        'font-size': 16,
+        'font-color': 'gray',
         'padx': 10,
         'pady': 10,
     },

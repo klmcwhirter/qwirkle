@@ -15,8 +15,8 @@ class TileDisplayAdapter:
         self.config = kwargs
 
         tile_config = self.config['tile']
-        self.font = pg.font.Font(None, tile_config['font_size'])
-        self.font_color = tile_config['font_color']
+        self.font = pg.font.Font(None, tile_config['font-size'])
+        self.font_color = tile_config['font-color']
 
         self.padx = tile_config['padx']
         self.pady = tile_config['pady']

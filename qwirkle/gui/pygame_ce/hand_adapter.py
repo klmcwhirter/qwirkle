@@ -12,8 +12,8 @@ class HandDisplayAdapter:
         self.config = kwargs
 
         hand_config = self.config['hand']
-        self.font = pg.font.Font(None, hand_config['font_size'])
-        self.font_color = hand_config['font_color']
+        self.font = pg.font.Font(None, hand_config['font-size'])
+        self.font_color = hand_config['font-color']
 
         self.padx = hand_config['padx']
         self.pady = hand_config['pady']

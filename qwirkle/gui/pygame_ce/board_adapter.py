@@ -18,8 +18,8 @@ class BoardDisplayAdapter:
         self.tile_adapter = pygame_ce_tile_adapter(**self.board.config)
 
         board_config = self.board.config['board']
-        self.font = pg.font.Font(None, board_config['font_size'])
-        self.font_color = board_config['font_color']
+        self.font = pg.font.Font(None, board_config['font-size'])
+        self.font_color = board_config['font-color']
 
         self.padx = board_config['padx']
         self.pady = board_config['pady']
