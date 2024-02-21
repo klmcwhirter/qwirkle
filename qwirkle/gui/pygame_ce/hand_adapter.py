@@ -3,8 +3,8 @@
 
 import pygame as pg
 
-from qwirkle.gui.component_display_adapter import ComponentDisplayAdapter
-from qwirkle.logic.models import Hand
+from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
+from qwirkle.logic.hand import Hand
 
 
 class HandDisplayAdapter:

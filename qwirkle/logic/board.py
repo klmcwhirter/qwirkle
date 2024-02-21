@@ -1,7 +1,7 @@
 """Qwirkle board"""
 
 from qwirkle.logic import BoardBase, BoardExpansionStrategy, Direction
-from qwirkle.logic.models import Tile
+from qwirkle.logic.tile import Tile
 
 
 class Board(BoardBase):

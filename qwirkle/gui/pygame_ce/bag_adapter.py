@@ -5,8 +5,8 @@ import logging
 
 import pygame as pg
 
-from qwirkle.gui.component_display_adapter import ComponentDisplayAdapter
-from qwirkle.logic.models import Bag
+from qwirkle.logic.bag import Bag
+from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 
 
 class BagDisplayAdapter:

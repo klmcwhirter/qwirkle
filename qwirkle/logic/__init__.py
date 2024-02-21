@@ -2,7 +2,7 @@
 from enum import StrEnum
 from typing import Protocol
 
-from qwirkle.logic.models import Tile
+from qwirkle.logic.tile import Tile
 
 
 class BoardBase(list[list[Tile | None]]):

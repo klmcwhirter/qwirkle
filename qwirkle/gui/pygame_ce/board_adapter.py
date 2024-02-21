@@ -5,7 +5,7 @@ import logging
 
 import pygame as pg
 
-from qwirkle.gui.component_display_adapter import ComponentDisplayAdapter
+from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 from qwirkle.gui.pygame_ce.tile_adapter import pygame_ce_tile_adapter
 from qwirkle.logic.board import Board
 

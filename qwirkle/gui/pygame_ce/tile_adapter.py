@@ -1,13 +1,10 @@
 '''Display Adapter for the Tile concept for pygame-ce'''
 
 
-import logging
-from pprint import pformat
-
 import pygame as pg
 
-from qwirkle.gui.component_display_adapter import ComponentDisplayAdapter
-from qwirkle.logic.models import Tile
+from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
+from qwirkle.logic.tile import Tile
 
 
 class TileDisplayAdapter:

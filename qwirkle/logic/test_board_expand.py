@@ -4,7 +4,9 @@
 import pytest
 
 from qwirkle.logic.board import Board, Direction
-from qwirkle.logic.models import Tile, colors, shapes
+from qwirkle.logic.color import colors
+from qwirkle.logic.shape import shapes
+from qwirkle.logic.tile import Tile
 
 
 @pytest.mark.parametrize(

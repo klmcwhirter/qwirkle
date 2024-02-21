@@ -1,56 +1,11 @@
-"""model the qwirkle objects and game rules"""
+"""Qwirkle Bag"""
 
 
 import random
-from dataclasses import dataclass
 
-
-@dataclass
-class Shape:
-    """A qwirkle game piece shape"""
-
-    name: str
-    code: str
-
-
-shapes = [
-    Shape('Circle', 'O'),
-    Shape('Criss-cross', 'X'),
-    Shape('Diamond', '^'),
-    Shape('Square', '#'),
-    Shape('Starburst', '*'),
-    Shape('Clover', '+'),
-]
-
-
-@dataclass
-class Color:
-    """A qwirkle game piece color"""
-
-    name: str
-    alias: str
-    code: str
-
-
-colors = [
-    Color('Red', 'red', 'R'),
-    Color('Orange', 'orange', 'O'),
-    Color('Yellow', 'yellow', 'Y'),
-    Color('Green', 'green', 'G'),
-    Color('Blue', 'blue', 'B'),
-    Color('Purple', 'purple', 'P'),
-]
-
-
-@dataclass
-class Tile:
-    """a qwirkle game piece - called a Tile"""
-
-    color: Color
-    shape: Shape
-
-    def __str__(self) -> str:
-        return f'{self.color.code}{self.shape.code}'
+from qwirkle.logic.color import Color, colors
+from qwirkle.logic.shape import Shape, shapes
+from qwirkle.logic.tile import Tile
 
 
 class Bag(list[Tile]):
@@ -73,8 +28,6 @@ class Bag(list[Tile]):
 
         # allow for overriding default shapes in config
         if 'shapes' in self.config:
-            global shapes
-
             if len(self.config['shapes']) != len(shapes):
                 raise ValueError(f'# of shapes in config ({len(self.config['shapes'])}) must be {len(shapes)}')
 
@@ -92,19 +45,3 @@ class Bag(list[Tile]):
 
     def shuffle(self) -> None:
         random.shuffle(self)
-
-
-class Hand(list[Tile]):
-    def __init__(self, game_bag: Bag, **kwargs) -> None:
-        super().__init__()
-
-        self.config = kwargs  # also used in adapter
-        self.num_tiles = kwargs['hand']['tiles']
-
-        self.bag = game_bag
-
-        self.reset()
-
-    def reset(self) -> None:
-        for _ in range(self.num_tiles):
-            self.append(self.bag.pop())

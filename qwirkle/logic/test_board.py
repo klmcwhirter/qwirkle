@@ -2,7 +2,9 @@ import pytest
 
 from qwirkle.logic import Direction
 from qwirkle.logic.board import Board
-from qwirkle.logic.models import Tile, colors, shapes
+from qwirkle.logic.color import colors
+from qwirkle.logic.shape import shapes
+from qwirkle.logic.tile import Tile
 
 
 def test_board_initialized_per_config(app_config) -> None:
