@@ -3,7 +3,8 @@
 
 import pytest
 
-from qwirkle.logic.board import Board, Direction
+from qwirkle.logic import Direction
+from qwirkle.logic.board import Board
 from qwirkle.logic.color import colors
 from qwirkle.logic.shape import shapes
 from qwirkle.logic.tile import Tile

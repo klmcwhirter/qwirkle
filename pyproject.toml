@@ -1,33 +1,90 @@
 [project]
 name = "qwirkle"
-version = "0.1.0"
+dynamic = ["version"]
 description = "Default template for PDM package"
-authors = [
-    {name = "Kevin McWhirter", email = "klmcw@yahoo.com"}
-]
+authors = [{ name = "Kevin McWhirter", email = "klmcw@yahoo.com" }]
 license = { text = "MIT" }
 readme = "README.md"
 
-requires-python = "==3.12.*"
-dependencies = [
-    "pygame-ce>=2.4.0"
-]
+requires-python = ">=3.12"
+
+dependencies = ["qwirkle", "pygame-ce>=2.4.0"]
+
+[project.urls]
+Homepage = "https://github.com/klmcwhirter/qwirkle"
+Repository = "https://github.com/klmcwhirter/qwirkle"
 
 
 [tool.pdm]
-distribution = false
+distribution = true
 
+[tool.pdm.build]
+is-purelib = true
 
-[tool.pdm.scripts]
-create_venv = { shell = "pdm venv remove -y in-project; pdm install --prod" }
-install_dev = { shell = "pdm install --dev" }
-start = "python -m qwirkle"
-clean = { shell = "find . -type d \\( -name __pycache__ -o -name .pytest_cache \\) -exec rm -fr {} \\;" }
-test = "pytest -vv"
-
+[tool.pdm.version]
+source = "scm"
+tag_regex = "^(?:[\\w-]+-)?(?P<version>[vV]?\\d+(?:\\.\\d+){0,2})"
+# version_format coming soon - https://github.com/pdm-project/pdm-backend/commit/4f20cfd51928b9e4d8b1a941630865755b569b19
+# version_format = "qwirkle.version:format_version" 
+write_to = "qwirkle/utils/_version.py"
+write_template = "__version__ = '{}'"
 
 [tool.pdm.dev-dependencies]
 dev = [
     "autopep8>=2.0.4",
-    "pytest>=8.0.0",
+    "pytest>=8.0.1",
+    "pytest-cov>=4.1.0",
+    "mypy>=1.9.0",
+    "flake8>=7.0.0",
+    "tox>=4.14.1",
+    "tox-gh-actions>=3.2.0",
+    "tox-pdm>=0.7.2",
 ]
+
+[tool.pdm.scripts]
+_.env = { QWIRKLE = "qwirkle" }
+create.shell = "pdm venv remove -y in-project; pdm install"
+clean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
+clean.env = { TO_DEL = "build .coverage .mypy_cache .pdm-build __pycache__ .pytest_cache qwirkle.egg-info .tox dist" }
+clean.help = "Clean environment"
+
+start.cmd = "python -m ${QWIRKLE}"
+enable.shell = "sudo python -m ${QWIRKLE} enable --verbose"
+enable.help = "Enable nvidia limiting feature; reboot is required"
+disable.shell = "sudo python -m ${QWIRKLE} disable --verbose"
+disable.help = "Disable nvidia limiting feature and rescan PCI bus"
+has_nvidia.composite = ["start has_nvidia"]
+has_nvidia.help = "Report nvidia is available or not - outputs nvidia or no-nvidia"
+
+power.cmd = "python -m ${QWIRKLE}.power_mon"
+power.help = "Report battery power metrics"
+
+flake8.cmd = "flake8 ${QWIRKLE}"
+mypy.cmd = "mypy -p ${QWIRKLE}"
+test.cmd = "pytest"
+tox.cmd = "tox"
+
+[tool.autopep8]
+max-doc-length = 140
+max_line_length = 140
+
+[tool.pytest.ini_options]
+addopts = "--cov=qwirkle"
+
+[tool.mypy]
+mypy_path = "qwirkle"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true
+
+[tool.setuptools]
+# This is here to avoid complaining about monorepo
+py-modules = ['qwirkle']

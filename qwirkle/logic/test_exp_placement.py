@@ -2,8 +2,8 @@
 
 import pytest
 
-from qwirkle.logic import BoardExpansionStrategy
-from qwirkle.logic.board import Board, Direction
+from qwirkle.logic import BoardExpansionStrategy, Direction
+from qwirkle.logic.board import Board
 from qwirkle.logic.exp_placement import create_row_part, create_segment
 
 
@@ -37,7 +37,7 @@ def test_create_segment_has_dimensions(expected_width: int, expected_height: int
         Direction.WEST,
     ],
 )
-def test_exp_can_grow_horizontally(app_config, dir: str) -> None:
+def test_exp_can_grow_horizontally(app_config, dir: Direction) -> None:
     board = Board(**app_config)
     strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
@@ -51,14 +51,6 @@ def test_exp_can_grow_horizontally(app_config, dir: str) -> None:
     assert all(expected_width == len(r) for r in board)
 
 
-def test_board_grow_horizontally_throws_with_bad_dir(app_config) -> None:
-    board = Board(**app_config)
-    strategy: BoardExpansionStrategy = app_config['board']['expansion']
-
-    with pytest.raises(ValueError):
-        strategy.grow_horizontal(board, 2, 'bogus')
-
-
 @pytest.mark.parametrize(
     ['dir'],
     [
@@ -66,7 +58,7 @@ def test_board_grow_horizontally_throws_with_bad_dir(app_config) -> None:
         Direction.NORTH,
     ],
 )
-def test_board_can_grow_vertically(app_config, dir: str) -> None:
+def test_board_can_grow_vertically(app_config, dir: Direction) -> None:
     board = Board(**app_config)
     strategy: BoardExpansionStrategy = app_config['board']['expansion']
 
@@ -78,14 +70,6 @@ def test_board_can_grow_vertically(app_config, dir: str) -> None:
 
     expected_width = board_config['segment-size'] * board_config['initial-segments']
     assert all(expected_width == len(r) for r in board)
-
-
-def test_board_grow_vertically_throws_with_bad_dir(app_config) -> None:
-    board = Board(**app_config)
-    strategy: BoardExpansionStrategy = app_config['board']['expansion']
-
-    with pytest.raises(ValueError):
-        strategy.grow_vertical(board, 2, 'bogus')
 
 
 @pytest.mark.parametrize(

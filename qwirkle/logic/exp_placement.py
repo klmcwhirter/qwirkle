@@ -1,18 +1,22 @@
 
 
-from qwirkle.logic import BoardBase, Direction
+from qwirkle.logic import Direction, _BoardBase
+from qwirkle.logic.tile import Tile
 
 
-def create_row_part(width: int) -> list[None]:
+def create_row_part(width: int) -> list[Tile | None]:
     return [None for _ in range(width)]
 
 
-def create_segment(width: int, height: int) -> list[list[None]]:
+def create_segment(width: int, height: int) -> list[list[Tile | None]]:
     return [create_row_part(width) for _ in range(height)]
 
 
 class SegmentExpansionStrategy:
-    def adjust(self, x: int, y: int, dir: Direction, increment: int = 1) -> tuple[int, int]:
+    def __init__(self, segment_size: int) -> None:
+        self.segment_size: int = segment_size
+
+    def adjust(self, x: int, y: int, dir: Direction | None, increment: int = 1) -> tuple[int, int]:
         if dir == Direction.NORTH:
             return (x, y - increment)
         elif dir == Direction.SOUTH:
@@ -25,10 +29,10 @@ class SegmentExpansionStrategy:
         # None
         return (x, y)
 
-    def grow_horizontal(self, board: BoardBase, add_segments: int, dir: Direction) -> None:
+    def grow_horizontal(self, board: _BoardBase, add_segments: int, dir: Direction | None) -> None:
         for _ in range(add_segments):
             for row in board:
-                row_part = create_row_part(board.segment_size)
+                row_part = create_row_part(self.segment_size)
                 if dir == Direction.EAST:
                     row.extend(row_part)
                 elif dir == Direction.WEST:
@@ -37,10 +41,10 @@ class SegmentExpansionStrategy:
                 else:
                     raise ValueError(f'invalid value {dir} for dir')
 
-    def grow_vertical(self, board: BoardBase, add_segments: int, dir: Direction) -> None:
+    def grow_vertical(self, board: _BoardBase, add_segments: int, dir: Direction | None) -> None:
         for _ in range(add_segments):
-            width = len(board[0]) if len(board) > 0 else board.segment_size
-            segment = create_segment(width, board.segment_size)
+            width = len(board[0]) if len(board) > 0 else self.segment_size
+            segment = create_segment(width, self.segment_size)
             for row_part in segment:
                 if dir == Direction.SOUTH:
                     board.append(row_part)
@@ -49,7 +53,7 @@ class SegmentExpansionStrategy:
                 else:
                     raise ValueError(f'invalid value {dir} for dir')
 
-    def need_to_expand(self, board: BoardBase, num_tiles: int, x: int, y: int, dir: Direction) -> bool:
+    def need_to_expand(self, board: _BoardBase, num_tiles: int, x: int, y: int, dir: Direction | None) -> bool:
         if dir == Direction.NORTH:
             return (y - (num_tiles - 1)) < 0
         elif dir == Direction.SOUTH:

@@ -24,7 +24,9 @@ class BagDisplayAdapter:
         self.screen_width = self.bag.config['screen']['width']
         self.screen_height = self.bag.config['screen']['height']
 
-    def draw(self, screen: pg.Surface, **_kwargs) -> None:
+    def draw(self, /, **kwargs) -> None:
+        screen: pg.Surface = kwargs['screen']
+
         surf = self.font.render(f'Bag len={len(self.bag)}', True, self.font_color)
         rect = surf.get_rect()
 

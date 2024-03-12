@@ -3,8 +3,8 @@
 
 import random
 
-from qwirkle.logic.color import Color, colors
-from qwirkle.logic.shape import Shape, shapes
+from qwirkle.logic.color import Color, colors, set_colors
+from qwirkle.logic.shape import Shape, set_shapes, shapes
 from qwirkle.logic.tile import Tile
 
 
@@ -19,21 +19,20 @@ class Bag(list[Tile]):
 
         # allow for overriding default colors in config
         if 'colors' in self.config:
-            global colors
-
             if len(self.config['colors']) != len(colors):
                 raise ValueError(f'# of colors in config ({len(self.config['colors'])}) must be {len(colors)}')
 
-            colors = [Color(**c) for c in self.config['colors']]
+            set_colors([Color(**c) for c in self.config['colors']])
 
         # allow for overriding default shapes in config
         if 'shapes' in self.config:
             if len(self.config['shapes']) != len(shapes):
                 raise ValueError(f'# of shapes in config ({len(self.config['shapes'])}) must be {len(shapes)}')
 
-            shapes = [Shape(**s) for s in self.config['shapes']]
+            set_shapes([Shape(**s) for s in self.config['shapes']])
 
         self.reset()
+
         if shuffle:
             self.shuffle()
 

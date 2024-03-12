@@ -21,17 +21,15 @@ class HandDisplayAdapter:
         self.screen_width = self.config['screen']['width']
         self.screen_height = self.config['screen']['height']
 
-    def draw(self, screen: pg.Surface, **kwargs) -> None:
+    def draw(self, /, **kwargs) -> None:
         hand: Hand = kwargs['hand']
-        x_offset = 0
-        for tile in hand:
-            surf = self.font.render(f'Tile({tile}), ', True, self.font_color)
-            rect = surf.get_rect()
+        screen: pg.Surface = kwargs['screen']
+        surf = self.font.render(str(hand), True, self.font_color)
+        rect = surf.get_rect()
 
-            rect.bottomleft = (self.screen_width // 2 + x_offset, self.screen_height - self.pady)
-            screen.blit(surf, rect)
-
-            x_offset += rect.width
+        x_offset = self.padx - (rect.width * hand.player.number)
+        rect.bottomleft = ((self.screen_width // 3) - x_offset, self.screen_height - self.pady)
+        screen.blit(surf, rect)
 
 
 def pygame_ce_hand_adapter(**kwargs) -> ComponentDisplayAdapter:

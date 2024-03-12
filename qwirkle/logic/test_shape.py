@@ -17,7 +17,7 @@ from qwirkle.logic.shape import shapes
         'Clover',
     ],
 )
-def test_shapes_as_expected(expected):
+def test_shapes_as_expected(expected) -> None:
     found = [s.name for s in shapes if s.name == expected]
     assert [expected] == found
 
@@ -33,6 +33,6 @@ def test_shapes_as_expected(expected):
         '+',
     ],
 )
-def test_shape_codes_as_expected(expected):
+def test_shape_codes_as_expected(expected) -> None:
     found = [s.code for s in shapes if s.code == expected]
     assert [expected] == found

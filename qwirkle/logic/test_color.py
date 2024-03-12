@@ -17,6 +17,6 @@ from qwirkle.logic.color import colors
         'Purple',
     ],
 )
-def test_colors_as_expected(expected):
+def test_colors_as_expected(expected) -> None:
     found = [c.name for c in colors if c.name == expected]
     assert [expected] == found

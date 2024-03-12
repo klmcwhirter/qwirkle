@@ -5,9 +5,9 @@ import logging
 
 import pygame as pg
 
-from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 from qwirkle.gui.pygame_ce.tile_adapter import pygame_ce_tile_adapter
 from qwirkle.logic.board import Board
+from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 
 
 class BoardDisplayAdapter:
@@ -37,11 +37,12 @@ class BoardDisplayAdapter:
     def draw_tiles(self, screen: pg.Surface, **_kwargs) -> None:
         for row in self.board:
             for tile in row:
-                self.tile_adapter.draw(screen, tile=tile)
+                self.tile_adapter.draw(screen=screen, tile=tile)
 
-    def draw(self, screen: pg.Surface, **_kwargs) -> None:
-        # self.draw_tiles(screen)
-        self.draw_status(screen)
+    def draw(self, /, **kwargs) -> None:
+        screen: pg.Surface = kwargs['screen']
+        # self.draw_tiles(screen=screen)
+        self.draw_status(screen=screen)
 
 
 def pygame_ce_board_adapter(board: Board) -> ComponentDisplayAdapter:

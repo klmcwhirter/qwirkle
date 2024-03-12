@@ -20,3 +20,8 @@ shapes = [
     Shape('Starburst', '*'),
     Shape('Clover', '+'),
 ]
+
+
+def set_shapes(_shapes: list[Shape]) -> None:
+    global shapes
+    shapes = _shapes

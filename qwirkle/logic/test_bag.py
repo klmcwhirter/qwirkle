@@ -9,7 +9,7 @@ from qwirkle.logic.color import colors
 from qwirkle.logic.shape import shapes
 
 
-def test_bag_initially_has_108_tiles():
+def test_bag_initially_has_108_tiles() -> None:
     bag = Bag(shuffle=False)
 
     expected = len(shapes) * len(colors) * bag.tile_copies
@@ -17,7 +17,7 @@ def test_bag_initially_has_108_tiles():
     assert expected == len(bag)
 
 
-def test_bag_shuffle_randomizes_bag():
+def test_bag_shuffle_randomizes_bag() -> None:
     random.seed(math.pi)
 
     bag = Bag(shuffle=False)

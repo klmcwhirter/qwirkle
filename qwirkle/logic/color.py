@@ -21,3 +21,8 @@ colors = [
     Color('Blue', 'blue', 'B'),
     Color('Purple', 'purple', 'P'),
 ]
+
+
+def set_colors(_colors: list[Color]) -> None:
+    global colors
+    colors = _colors

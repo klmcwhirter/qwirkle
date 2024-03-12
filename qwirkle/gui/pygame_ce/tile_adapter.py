@@ -21,8 +21,9 @@ class TileDisplayAdapter:
         self.screen_width = self.config['screen']['width']
         self.screen_height = self.config['screen']['height']
 
-    def draw(self, screen: pg.Surface, **kwargs) -> None:
+    def draw(self, /, **kwargs) -> None:
         tile: Tile = kwargs['tile']
+        screen: pg.Surface = kwargs['screen']
         surf = self.font.render(f'Tile({tile})', True, self.font_color)
         rect = surf.get_rect()
 
