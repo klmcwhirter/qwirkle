@@ -8,7 +8,7 @@ readme = "README.md"
 
 requires-python = ">=3.12"
 
-dependencies = ["qwirkle", "pygame-ce>=2.4.0"]
+dependencies = ["pygame-ce>=2.4.0"]
 
 [project.urls]
 Homepage = "https://github.com/klmcwhirter/qwirkle"
@@ -59,8 +59,8 @@ has_nvidia.help = "Report nvidia is available or not - outputs nvidia or no-nvid
 power.cmd = "python -m ${QWIRKLE}.power_mon"
 power.help = "Report battery power metrics"
 
-flake8.cmd = "flake8 ${QWIRKLE}"
-mypy.cmd = "mypy -p ${QWIRKLE}"
+flake8.cmd = "flake8 src/"
+mypy.cmd = "mypy src/ tests/"
 test.cmd = "pytest"
 testcov.cmd = "pytest --cov=qwirkle --cov-report xml:coverage.xml --cov-report term"
 tox.cmd = "tox"
@@ -73,7 +73,7 @@ max_line_length = 140
 addopts = ""
 
 [tool.mypy]
-mypy_path = "qwirkle"
+mypy_path = "src/ tests/"
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true
@@ -85,7 +85,3 @@ warn_return_any = true
 warn_unreachable = true
 warn_unused_configs = true
 no_implicit_reexport = true
-
-[tool.setuptools]
-# This is here to avoid complaining about monorepo
-py-modules = ['qwirkle']

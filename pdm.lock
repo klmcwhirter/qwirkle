@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:10f63f089b0de6f10e1176e077ef1c15bc6d4fe942f0ebe7b2932b80274416c6"
+content_hash = "sha256:1502fc7771be0c063dc128381ec61b6ee0826c0a84d941ad1f411caa097cf0ea"
 
 [[package]]
 name = "autopep8"
