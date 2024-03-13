@@ -44,8 +44,8 @@ dev = [
 [tool.pdm.scripts]
 _.env = { QWIRKLE = "qwirkle" }
 create.shell = "pdm venv remove -y in-project; pdm install"
-clean.shell = "for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage .mypy_cache .pdm-build __pycache__ .pytest_cache qwirkle.egg-info .tox dist" }
+clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
+clean.env = { TO_DEL = "build .coverage coverage.xml .mypy_cache .pdm-build __pycache__ .pytest_cache qwirkle.egg-info .tox dist" }
 clean.help = "Clean environment"
 
 start.cmd = "python -m ${QWIRKLE}"
@@ -62,6 +62,7 @@ power.help = "Report battery power metrics"
 flake8.cmd = "flake8 ${QWIRKLE}"
 mypy.cmd = "mypy -p ${QWIRKLE}"
 test.cmd = "pytest"
+testcov.cmd = "pytest --cov=qwirkle --cov-report xml:coverage.xml --cov-report term"
 tox.cmd = "tox"
 
 [tool.autopep8]
@@ -69,7 +70,7 @@ max-doc-length = 140
 max_line_length = 140
 
 [tool.pytest.ini_options]
-addopts = "--cov=qwirkle"
+addopts = ""
 
 [tool.mypy]
 mypy_path = "qwirkle"

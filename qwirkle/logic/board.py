@@ -35,25 +35,36 @@ class Board(_BoardBase):
         self.expansion.grow_vertical(self, segments, Direction.SOUTH)
         self.expansion.grow_horizontal(self, segments - 1, Direction.EAST)  # already 1 wide
 
-    def expand_board(self, x: int, y: int, dir: Direction | None) -> tuple[int, int]:
-        if dir in [Direction.NORTH, Direction.SOUTH]:
-            self.expansion.grow_vertical(self, 1, dir)
-            dir = None if dir == Direction.SOUTH else Direction.SOUTH
-        elif dir in [Direction.EAST, Direction.WEST]:
-            self.expansion.grow_horizontal(self, 1, dir)
-            dir = None if dir == Direction.EAST else Direction.EAST
+    def expand_board(self, x: int, y: int, dir_to_expand: Direction) -> tuple[int, int]:
+        dir_to_adjust: Direction | None = dir_to_expand
+        if dir_to_adjust in [Direction.NORTH, Direction.SOUTH]:
+            self.expansion.grow_vertical(self, 1, dir_to_adjust)
+            # Do not adjust if SOUTH, but use SOUTH adjustment if NORTH
+            dir_to_adjust = None if dir_to_adjust == Direction.SOUTH else Direction.SOUTH
+        elif dir_to_adjust in [Direction.EAST, Direction.WEST]:
+            self.expansion.grow_horizontal(self, 1, dir_to_adjust)
+            # Do not adjust if EAST, but use EAST adjustment if WEST
+            dir_to_adjust = None if dir_to_adjust == Direction.EAST else Direction.EAST
 
-        return self.expansion.adjust(x, y, dir, self.segment_size)
+        return self.expansion.adjust(x, y, dir_to_adjust, self.segment_size)
 
     def available(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> bool:
         rc = True
-        for t, tile in enumerate(tiles):
+        for _ in tiles:
             rc = self[y][x] is None
             if rc:
                 x, y = self.expansion.adjust(x, y, dir)
             else:
                 break
         return rc
+
+    def contains_line_for(self, adjacent: Tile | None, tiles: list[Tile]) -> bool:
+        return adjacent is not None and \
+            (
+                all(t.color.code == adjacent.color.code for t in tiles) or
+                all(t.shape.code == adjacent.shape.code for t in tiles)
+            ) and \
+            str(adjacent) not in [str(tile) for tile in tiles]  # cannot have dups in a line
 
     def has_adjacent(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> bool:
         def in_bounds(point: tuple[int, int]) -> bool:
@@ -64,13 +75,19 @@ class Board(_BoardBase):
 
         if not rc:
             rc = True
-            for _t, _tile in enumerate(tiles):
-                points = [(x-1, y), (x+1, y), (x, y-1), (x, y+1)]
-                points = [p for p in filter(in_bounds, points)]
-                rc = any(self[test_y][test_x] is None for test_x, test_y in points)
-                if rc:
-                    x, y = self.expansion.adjust(x, y, dir)
+            point = self.expansion.adjust(x, y, dir)
+            for tile in tiles:
+                if in_bounds(point):
+                    # available and color or shapes match the adjacent
+                    rc = not self.available([tile], point[0], point[1], dir) and \
+                        self.contains_line_for(self[point[1]][point[0]], tiles)
+
+                    if rc:
+                        point = self.expansion.adjust(point[0], point[1], dir)
+                    else:
+                        break
                 else:
+                    rc = True  # will need to expand
                     break
 
         return rc
@@ -85,12 +102,12 @@ class Board(_BoardBase):
         if not can_place:
             raise ValueError(f'({x}, {y}) is occupied')
 
-        if can_place:
-            # TODO: is this a valid placement?
-            can_place = self.has_adjacent(tiles, x, y, dir)
-            if not can_place:
-                raise ValueError(f'({x}, {y}) is not adjacent to any tile')
-            can_place, error = (can_place, None)
+        can_place = self.has_adjacent(tiles, x, y, dir)
+        if not can_place:
+            raise ValueError(f'({x}, {y}) is not adjacent to any tile')
+
+        # TODO: is this a valid placement? lines should be no longer than 6 tiles
+        can_place, error = can_place, None
 
         if can_place:
             for idx, tile in enumerate(tiles):

@@ -33,11 +33,12 @@ def hand_all_unique(hand: Hand) -> bool:
 
 def test_hand_str_represents_current_hand_state(app_config) -> None:
     # Make sure to shuffle in this test to help produce all unique tiles in a Hand
-    bag = Bag(shuffle=True)
+    # but do not shuffle initially to force the lines in the while loop to be run - coverage
+    bag = Bag(shuffle=False)
 
     # This test's design assumes that all tiles in the hand are unique
     hand = Hand(game_bag=bag, **app_config)
-    while not hand_all_unique(hand):
+    while not hand_all_unique(hand=hand):
         bag = Bag(shuffle=True)
         hand = Hand(game_bag=bag, **app_config)
 

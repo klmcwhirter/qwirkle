@@ -20,11 +20,11 @@ class BoardExpansionStrategy(Protocol):
     def adjust(self, x: int, y: int, dir: Direction | None, increment: int = 1) -> tuple[int, int]:
         ...
 
-    def grow_horizontal(self, board: _BoardBase, add_segments: int, dir: Direction | None) -> None:
+    def grow_horizontal(self, board: _BoardBase, add_segments: int, dir: Direction) -> None:
         ...
 
-    def grow_vertical(self, board: _BoardBase, add_segments: int, dir: Direction | None) -> None:
+    def grow_vertical(self, board: _BoardBase, add_segments: int, dir: Direction) -> None:
         ...
 
-    def need_to_expand(self, board: _BoardBase, num_tiles: int, x: int, y: int, dir: Direction | None) -> bool:
+    def need_to_expand(self, board: _BoardBase, num_tiles: int, x: int, y: int, dir: Direction) -> bool:
         ...

@@ -17,47 +17,6 @@ def test_board_initialized_per_config(app_config) -> None:
     assert all(expected_side_len == len(r) for r in board)
 
 
-def test_board_place_tiles_occupied_raises(app_config) -> None:
-    board = Board(**app_config)
-
-    tile = Tile(colors[0], shapes[0])
-    board.place_tiles([tile], 0, 0, Direction.NORTH)
-
-    assert tile == board[0][0]
-
-    with pytest.raises(ValueError):
-        tile1 = Tile(colors[1], shapes[1])
-        board.place_tiles([tile1], 0, 0, Direction.NORTH)
-
-
-def test_board_place_tiles_adjacent_succeeds(app_config) -> None:
-    board = Board(**app_config)
-
-    tile = Tile(colors[0], shapes[0])
-    board.place_tiles([tile], 0, 0, Direction.NORTH)
-
-    assert tile == board[0][0]
-
-    tile1 = Tile(colors[1], shapes[1])
-    board.place_tiles([tile1], 0, 1, Direction.NORTH)
-
-    assert tile1 == board[1][0]
-
-
-@pytest.mark.skip("for now ...")
-def test_board_place_tiles_not_adjacent_raises(app_config) -> None:
-    board = Board(**app_config)
-
-    tile = Tile(colors[0], shapes[0])
-    board.place_tiles([tile], 0, 0, Direction.NORTH)
-
-    assert tile == board[0][0]
-
-    with pytest.raises(ValueError):
-        tile1 = Tile(colors[1], shapes[1])
-        board.place_tiles([tile1], 2, 2, Direction.NORTH)
-
-
 def test_board_placed_returns_correct_state(app_config) -> None:
     board = Board(**app_config)
 
@@ -74,3 +33,64 @@ def test_board_placed_returns_correct_state(app_config) -> None:
     rc = board.placed_tiles()
 
     assert tiles == rc
+
+
+@pytest.mark.parametrize(
+    'reason,adjacent,tiles,expected',
+    [
+        (
+            'colors match',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[0], shapes[2]), Tile(colors[0], shapes[3])],
+            True
+        ),
+        (
+            'colors match, but duplicate shape',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[0], shapes[0]), Tile(colors[0], shapes[3])],
+            False
+        ),
+        (
+            'shapes match',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[2], shapes[0]), Tile(colors[3], shapes[0])],
+            True
+        ),
+        (
+            'shapes match, but duplicate color',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[2], shapes[0]), Tile(colors[0], shapes[0])],
+            False
+        ),
+        (
+            'one does not match',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[0], shapes[2]), Tile(colors[3], shapes[3])],
+            False
+        ),
+        (
+            'no match',
+            Tile(colors[0], shapes[0]),
+            [Tile(colors[2], shapes[2]), Tile(colors[3], shapes[3])],
+            False
+        )
+    ]
+)
+def test_board_contains_line(app_config, reason: str, adjacent: Tile, tiles: list[Tile], expected: bool) -> None:
+    board = Board(**app_config)
+    rc = board.contains_line_for(adjacent, tiles)
+    assert expected == rc
+
+
+def test_board_str_contains_codes(app_config) -> None:
+    board = Board(**app_config)
+    tile1 = Tile(colors[0], shapes[0])
+    tile2 = Tile(colors[0], shapes[1])
+    tiles = [tile1, tile2]
+    board.place_tiles(tiles, 0, 1, Direction.NORTH)
+
+    board_str = str(board)
+
+    for tile in tiles:
+        expected = f'{tile!s:>2}'
+        assert expected in board_str

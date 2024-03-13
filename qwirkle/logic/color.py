@@ -25,4 +25,5 @@ colors = [
 
 def set_colors(_colors: list[Color]) -> None:
     global colors
-    colors = _colors
+    colors.clear()
+    colors.extend(_colors)

@@ -24,4 +24,5 @@ shapes = [
 
 def set_shapes(_shapes: list[Shape]) -> None:
     global shapes
-    shapes = _shapes
+    shapes.clear()
+    shapes.extend(_shapes)
