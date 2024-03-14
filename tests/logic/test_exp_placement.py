@@ -1,4 +1,4 @@
-''''Tests for expanding the board during placement'''
+"""'Tests for expanding the board during placement"""
 
 import pytest
 

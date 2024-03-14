@@ -10,7 +10,7 @@ from qwirkle.gui.pygame_ce.bag_adapter import pygame_ce_bag_adapter
 from qwirkle.gui.pygame_ce.board_adapter import pygame_ce_board_adapter
 from qwirkle.gui.pygame_ce.hand_adapter import pygame_ce_hand_adapter
 from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
-from qwirkle.logic.game import Game as LogicGame
+from qwirkle.logic.game import Game
 
 # initialize pygame
 pg.init()
@@ -21,30 +21,24 @@ if not pg.mixer:
     logging.warn('Pygame: Sound not available')
 
 
-class Game:
-    def __init__(self) -> None:
-        from ...config import settings
-
-        self.config = settings
+class GameDisplayAdapter:
+    def __init__(self, **kwargs) -> None:
+        self.config = kwargs
         logging.debug(pformat(self.config, sort_dicts=False))
 
         self.bag_adapter: ComponentDisplayAdapter
         self.board_adapter: ComponentDisplayAdapter
         self.hand_adapter: ComponentDisplayAdapter
 
-        self.game = LogicGame(**self.config)
+        self.game = Game(**self.config)
 
-        screen_config: dict[str, Any] = {k: v for k, v in self.config['screen']}
+        screen_config: dict[str, Any] = {k: v for k, v in self.config['screen'].items()}
         self.width: int = int(screen_config['width'])
         self.height: int = int(screen_config['height'])
         self.bg_color: str = str(screen_config['bg-color'])
 
-        self._set_window_title()
-        self.screen = pg.display.set_mode((self.width, self.height))
-
-    def _set_window_title(self, addon: str | None = None) -> None:
-        msg = f'{self.config['title']}' if addon is None else f'{self.config['title']} - {addon}'
-        pg.display.set_caption(msg)
+    def get_window_title(self, addon: str | None = None) -> str:
+        return f'{self.config['title']}' if addon is None else f'{self.config['title']} - {addon}'
 
     def draw(self):
         # fill the screen with a color to wipe away anything from last frame
@@ -65,6 +59,9 @@ class Game:
 
     def run(self) -> None:
         try:
+            pg.display.set_caption(self.get_window_title())
+            self.screen = pg.display.set_mode((self.width, self.height))
+
             self.reset()
             clock = pg.time.Clock()
 
@@ -103,10 +100,10 @@ class Game:
             pg.quit()
 
 
-def pygame_ce_display_adapter() -> None:
+def pygame_ce_game_adapter(**kwargs) -> None:
     logging.debug('Starting game')
     try:
-        game = Game()
+        game = GameDisplayAdapter(**kwargs)
         game.run()
     finally:
         logging.debug('Exiting game')

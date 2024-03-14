@@ -1,4 +1,4 @@
-'''Display Adapter for the Hand concept for pygame-ce'''
+"""Display Adapter for the Hand concept for pygame-ce"""
 
 
 import pygame as pg

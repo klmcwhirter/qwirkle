@@ -1,4 +1,4 @@
-'''Display Adapter for the Tile concept for pygame-ce'''
+"""Display Adapter for the Tile concept for pygame-ce"""
 
 
 import pygame as pg

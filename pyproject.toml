@@ -45,7 +45,7 @@ dev = [
 _.env = { QWIRKLE = "qwirkle" }
 create.shell = "pdm venv remove -y in-project; pdm install"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage coverage.xml .mypy_cache .pdm-build __pycache__ .pytest_cache qwirkle.egg-info .tox dist" }
+clean.env = { TO_DEL = "build .coverage coverage.xml .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist" }
 clean.help = "Clean environment"
 
 start.cmd = "python -m ${QWIRKLE}"

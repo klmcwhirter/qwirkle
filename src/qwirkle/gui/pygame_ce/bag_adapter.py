@@ -1,4 +1,4 @@
-'''Display Adapter for the Bag concept for pygame-ce'''
+"""Display Adapter for the Bag concept for pygame-ce"""
 
 
 import logging

@@ -41,7 +41,7 @@ class SegmentExpansionStrategy:
 
     def grow_vertical(self, board: _BoardBase, add_segments: int, dir: Direction) -> None:
         for _ in range(add_segments):
-            width = len(board[0]) if len(board) > 0 else self.segment_size
+            width = len(board.board_row(0)) if len(board) > 0 else self.segment_size
             segment = create_segment(width, self.segment_size)
             for row_part in segment:
                 if dir == Direction.SOUTH:
@@ -57,4 +57,4 @@ class SegmentExpansionStrategy:
         elif dir == Direction.WEST:
             return (x - (num_tiles - 1)) < 0
         elif dir == Direction.EAST:
-            return (x + num_tiles) > len(board[y])
+            return (x + num_tiles) > len(board.board_row(y))

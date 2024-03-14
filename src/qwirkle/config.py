@@ -19,14 +19,14 @@ settings = {
         'padx': 10,
         'pady': 10,
     },
-    'colors': [
-        {'name': 'red',    'alias': 'red',     'code': 'R'},
-        {'name': 'orange', 'alias': 'orange',  'code': 'O'},
-        {'name': 'yellow', 'alias': 'yellow',  'code': 'Y'},
-        {'name': 'green',  'alias': 'green',   'code': 'G'},
-        {'name': 'blue',   'alias': 'blue',    'code': 'B'},
-        {'name': 'purple', 'alias': 'purple',  'code': 'P'},
-    ],
+    # 'colors': [
+    #     {'name': 'red',    'alias': 'red',     'code': 'R'},
+    #     {'name': 'orange', 'alias': 'orange',  'code': 'O'},
+    #     {'name': 'yellow', 'alias': 'yellow',  'code': 'Y'},
+    #     {'name': 'green',  'alias': 'green',   'code': 'G'},
+    #     {'name': 'blue',   'alias': 'blue',    'code': 'B'},
+    #     {'name': 'purple', 'alias': 'purple',  'code': 'P'},
+    # ],
     'game': {
         'players': [
             Player('human1', 0),

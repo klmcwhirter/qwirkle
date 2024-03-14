@@ -1,4 +1,4 @@
-'''Display Adapter for the Board concept for pygame-ce'''
+"""Display Adapter for the Board concept for pygame-ce"""
 
 
 import logging

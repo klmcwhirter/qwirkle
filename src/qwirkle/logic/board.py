@@ -51,7 +51,7 @@ class Board(_BoardBase):
     def available(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> bool:
         rc = True
         for _ in tiles:
-            rc = self[y][x] is None
+            rc = self.board_cell(x, y) is None
             if rc:
                 x, y = self.expansion.adjust(x, y, dir)
             else:
@@ -67,23 +67,22 @@ class Board(_BoardBase):
             str(adjacent) not in [str(tile) for tile in tiles]  # cannot have dups in a line
 
     def has_adjacent(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> bool:
-        def in_bounds(point: tuple[int, int]) -> bool:
-            tx, ty = point
-            return tx >= 0 and tx < len(self[y]) and ty >= 0 and ty < len(self)
+        def in_bounds(x: int, y: int) -> bool:
+            return x >= 0 and x < len(self.board_row(y)) and y >= 0 and y < len(self)
 
         rc = len(self.placed_tiles()) == 0  # allow first tiles being placed
 
         if not rc:
             rc = True
-            point = self.expansion.adjust(x, y, dir)
+            p_x, p_y = self.expansion.adjust(x, y, dir)
             for tile in tiles:
-                if in_bounds(point):
+                if in_bounds(p_x, p_y):
                     # available and color or shapes match the adjacent
-                    rc = not self.available([tile], point[0], point[1], dir) and \
-                        self.contains_line_for(self[point[1]][point[0]], tiles)
+                    rc = not self.available([tile], p_x, p_y, dir) and \
+                        self.contains_line_for(self.board_cell(p_x, p_y), tiles)
 
                     if rc:
-                        point = self.expansion.adjust(point[0], point[1], dir)
+                        p_x, p_y = self.expansion.adjust(p_x, p_y, dir)
                     else:
                         break
                 else:
@@ -100,14 +99,18 @@ class Board(_BoardBase):
         # make sure spot is available
         can_place = self.available(tiles, x, y, dir)
         if not can_place:
-            raise ValueError(f'({x}, {y}) is occupied')
+            error = f'({x}, {y}) is occupied'
 
-        can_place = self.has_adjacent(tiles, x, y, dir)
-        if not can_place:
-            raise ValueError(f'({x}, {y}) is not adjacent to any tile')
+        if can_place:
+            can_place = self.has_adjacent(tiles, x, y, dir)
+            if not can_place:
+                error = f'({x}, {y}) is not adjacent to any tile'
 
-        # TODO: is this a valid placement? lines should be no longer than 6 tiles
-        can_place, error = can_place, None
+        if can_place:
+            # TODO: is this a valid placement? lines should be no longer than 6 tiles
+            can_place = can_place
+            # if not can_place:
+            #     error = f'A Qwirkle line cannot be longer than 6 tiles'
 
         if can_place:
             for idx, tile in enumerate(tiles):

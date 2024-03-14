@@ -22,11 +22,11 @@ def test_board_placed_returns_correct_state(app_config) -> None:
 
     tile1 = Tile(colors[0], shapes[0])
     board.place_tiles([tile1], 0, 0, Direction.NORTH)
-    assert tile1 == board[0][0]
+    assert tile1 == board.board_cell(0, 0)
 
     tile2 = Tile(colors[0], shapes[1])
     board.place_tiles([tile2], 0, 1, Direction.NORTH)
-    assert tile2 == board[1][0]
+    assert tile2 == board.board_cell(0, 1)
 
     tiles = [(0, 0, tile1), (0, 1, tile2)]
 
@@ -36,7 +36,7 @@ def test_board_placed_returns_correct_state(app_config) -> None:
 
 
 @pytest.mark.parametrize(
-    'reason,adjacent,tiles,expected',
+    '_reason,adjacent,tiles,expected',
     [
         (
             'colors match',
@@ -76,7 +76,7 @@ def test_board_placed_returns_correct_state(app_config) -> None:
         )
     ]
 )
-def test_board_contains_line(app_config, reason: str, adjacent: Tile, tiles: list[Tile], expected: bool) -> None:
+def test_board_contains_line(app_config, _reason: str, adjacent: Tile, tiles: list[Tile], expected: bool) -> None:
     board = Board(**app_config)
     rc = board.contains_line_for(adjacent, tiles)
     assert expected == rc

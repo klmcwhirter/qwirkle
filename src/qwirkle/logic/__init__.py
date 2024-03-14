@@ -6,7 +6,11 @@ from qwirkle.logic.tile import Tile
 
 
 class _BoardBase(list[list[Tile | None]]):
-    ...
+    def board_cell(self, x: int, y: int) -> Tile | None:
+        return self[y][x]
+
+    def board_row(self, y: int) -> list[Tile | None]:
+        return self[y]
 
 
 class Direction(StrEnum):
