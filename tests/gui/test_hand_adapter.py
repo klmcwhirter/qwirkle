@@ -1,7 +1,6 @@
 """tests for HandDisplayAdapter"""
 
-from qwirkle.gui.pygame_ce.hand_adapter import (HandDisplayAdapter,
-                                                pygame_ce_hand_adapter)
+from qwirkle.gui.hand_adapter import HandDisplayAdapter, pygame_ce_hand_adapter
 
 
 def test_can_construct(app_config) -> None:

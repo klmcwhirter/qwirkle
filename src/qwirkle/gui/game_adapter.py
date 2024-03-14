@@ -6,9 +6,9 @@ from typing import Any
 
 import pygame as pg
 
-from qwirkle.gui.pygame_ce.bag_adapter import pygame_ce_bag_adapter
-from qwirkle.gui.pygame_ce.board_adapter import pygame_ce_board_adapter
-from qwirkle.gui.pygame_ce.hand_adapter import pygame_ce_hand_adapter
+from qwirkle.gui.bag_adapter import pygame_ce_bag_adapter
+from qwirkle.gui.board_adapter import pygame_ce_board_adapter
+from qwirkle.gui.hand_adapter import pygame_ce_hand_adapter
 from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 from qwirkle.logic.game import Game
 

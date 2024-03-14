@@ -2,10 +2,10 @@
 
 import pytest
 
-from qwirkle.gui.pygame_ce.bag_adapter import BagDisplayAdapter
-from qwirkle.gui.pygame_ce.board_adapter import BoardDisplayAdapter
-from qwirkle.gui.pygame_ce.game_adapter import GameDisplayAdapter
-from qwirkle.gui.pygame_ce.hand_adapter import HandDisplayAdapter
+from qwirkle.gui.bag_adapter import BagDisplayAdapter
+from qwirkle.gui.board_adapter import BoardDisplayAdapter
+from qwirkle.gui.game_adapter import GameDisplayAdapter
+from qwirkle.gui.hand_adapter import HandDisplayAdapter
 from qwirkle.logic.game import Game
 
 

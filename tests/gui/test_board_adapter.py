@@ -1,8 +1,8 @@
 """tests for BoardDisplayAdapter"""
 
-from qwirkle.gui.pygame_ce.board_adapter import (BoardDisplayAdapter,
-                                                 pygame_ce_board_adapter)
-from qwirkle.gui.pygame_ce.tile_adapter import TileDisplayAdapter
+from qwirkle.gui.board_adapter import (BoardDisplayAdapter,
+                                       pygame_ce_board_adapter)
+from qwirkle.gui.tile_adapter import TileDisplayAdapter
 from qwirkle.logic.board import Board
 
 

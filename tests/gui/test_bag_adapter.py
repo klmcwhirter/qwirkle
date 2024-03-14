@@ -1,7 +1,6 @@
 """tests for BagDisplayAdapter"""
 
-from qwirkle.gui.pygame_ce.bag_adapter import (BagDisplayAdapter,
-                                               pygame_ce_bag_adapter)
+from qwirkle.gui.bag_adapter import BagDisplayAdapter, pygame_ce_bag_adapter
 from qwirkle.logic.bag import Bag
 
 

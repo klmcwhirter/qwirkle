@@ -1,7 +1,6 @@
 """tests for TileDisplayAdapter"""
 
-from qwirkle.gui.pygame_ce.tile_adapter import (TileDisplayAdapter,
-                                                pygame_ce_tile_adapter)
+from qwirkle.gui.tile_adapter import TileDisplayAdapter, pygame_ce_tile_adapter
 
 
 def test_can_construct(app_config) -> None:

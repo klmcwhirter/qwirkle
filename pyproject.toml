@@ -42,24 +42,15 @@ dev = [
 ]
 
 [tool.pdm.scripts]
-_.env = { QWIRKLE = "qwirkle" }
 create.shell = "pdm venv remove -y in-project; pdm install"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
 clean.env = { TO_DEL = "build .coverage coverage.xml .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist" }
 clean.help = "Clean environment"
+start = "pdm gui"
 
-start.cmd = "python -m ${QWIRKLE}"
-enable.shell = "sudo python -m ${QWIRKLE} enable --verbose"
-enable.help = "Enable nvidia limiting feature; reboot is required"
-disable.shell = "sudo python -m ${QWIRKLE} disable --verbose"
-disable.help = "Disable nvidia limiting feature and rescan PCI bus"
-has_nvidia.composite = ["start has_nvidia"]
-has_nvidia.help = "Report nvidia is available or not - outputs nvidia or no-nvidia"
+gui.cmd = "python -m qwirkle.gui"
 
-power.cmd = "python -m ${QWIRKLE}.power_mon"
-power.help = "Report battery power metrics"
-
-flake8.cmd = "flake8 src/"
+flake8.cmd = "flake8 src/ tests/"
 mypy.cmd = "mypy src/ tests/"
 test.cmd = "pytest"
 testcov.cmd = "pytest --cov=qwirkle --cov-report xml:coverage.xml --cov-report term"
