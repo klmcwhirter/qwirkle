@@ -12,6 +12,9 @@
         "qwirkle",
         "vernum"
     ],
+    "files.associations": {
+        "*.md.in": "markdown"
+    },
     "python.testing.pytestArgs": [
         "tests"
     ],

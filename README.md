@@ -16,6 +16,43 @@ Qwirkle is a game created by Susan McKinley Ross of [Idea Duck](http://ideaduck.
 - [Design](./docs/design.md)
 
 
+## Test Coverage
+The design has led to putting the game logic in a Python package `qwirkle.logic` that is compoletely headless.
+
+This means that:
+* this should be where the most code is
+* this should be where the most risk is
+* this is tested thoroughly!
+
+```
+---------- coverage: platform linux, python 3.12.2-final-0 -----------
+Name                                             Stmts   Miss  Cover
+--------------------------------------------------------------------
+src/qwirkle/__init__.py                              0      0   100%
+src/qwirkle/config.py                                3      0   100%
+src/qwirkle/gui/__init__.py                          3      0   100%
+src/qwirkle/gui/__main__.py                          5      5     0%
+src/qwirkle/gui/bag_adapter.py                      23      5    78%
+src/qwirkle/gui/board_adapter.py                    31      9    71%
+src/qwirkle/gui/game_adapter.py                     67     32    52%
+src/qwirkle/gui/hand_adapter.py                     23      7    70%
+src/qwirkle/gui/tile_adapter.py                     22      6    73%
+src/qwirkle/logic/__init__.py                       22      4    82%
+src/qwirkle/logic/bag.py                            29      0   100%
+src/qwirkle/logic/board.py                          74      0   100%
+src/qwirkle/logic/color.py                          10      0   100%
+src/qwirkle/logic/component_display_adapter.py       4      1    75%
+src/qwirkle/logic/exp_placement.py                  46      0   100%
+src/qwirkle/logic/game.py                           15      0   100%
+src/qwirkle/logic/hand.py                           16      0   100%
+src/qwirkle/logic/player.py                          5      0   100%
+src/qwirkle/logic/shape.py                           9      0   100%
+src/qwirkle/logic/tile.py                            9      0   100%
+--------------------------------------------------------------------
+TOTAL                                              416     69    83%
+
+```
+
 ## See also
 
 - [Translated Requirements](./docs/requirements.md)
