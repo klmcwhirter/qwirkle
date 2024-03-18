@@ -1,7 +1,27 @@
 """Qwirkle board"""
 
+from dataclasses import dataclass, field
+
 from qwirkle.logic import BoardExpansionStrategy, Direction, _BoardBase
+from qwirkle.logic.player import Player
 from qwirkle.logic.tile import Tile
+
+
+@dataclass
+class TilePlacement:
+    x: int
+    y: int
+    tile: Tile
+
+
+@dataclass
+class BoardPlacement:
+    player: Player
+    x: int
+    y: int
+    dir: Direction
+    tiles: list[TilePlacement] = field(default_factory=list[TilePlacement], init=False)
+    score: int = field(default=0, init=False)
 
 
 class Board(_BoardBase):
@@ -91,7 +111,9 @@ class Board(_BoardBase):
 
         return rc
 
-    def place_tiles(self, tiles: list[Tile], x: int, y: int, dir: Direction) -> int:
+    def place_tiles(self, player: Player, tiles: list[Tile], x: int, y: int, dir: Direction) -> BoardPlacement:
+        placement = BoardPlacement(player, x, y, dir)
+
         # expand if need to ...
         if self.expansion.need_to_expand(self, len(tiles), x, y, dir):
             x, y = self.expand_board(x, y, dir)
@@ -117,14 +139,17 @@ class Board(_BoardBase):
                 if idx != 0:
                     x, y = self.expansion.adjust(x, y, dir)
 
+                placement.tiles.append(TilePlacement(x, y, tile))
+
                 self[y][x] = tile
         else:
             raise ValueError(f'Not a valid placement: {error}')
 
         # TODO: calculate score
-        score = 0
 
-        return score
+        placement.score = 0
+
+        return placement
 
     def placed_tiles(self) -> list[tuple[int, int, Tile]]:
         rc = [

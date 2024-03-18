@@ -31,7 +31,7 @@ def test_can_place_tiles(app_config, tiles: list[Tile], x: int, y: int, dir: Dir
 
     # print(f'before: board=\n{board}')
 
-    board.place_tiles(tiles, x, y, dir)
+    board.place_tiles(app_config['game']['players'][0], tiles, x, y, dir)
 
     # print(f'after: board=\n{board}')
 
@@ -42,24 +42,24 @@ def test_board_place_tiles_occupied_raises(app_config) -> None:
     board = Board(**app_config)
 
     tile = Tile(colors[0], shapes[0])
-    board.place_tiles([tile], 0, 0, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][0], [tile], 0, 0, Direction.NORTH)
 
     assert tile == board.board_cell(0, 0)
 
     with pytest.raises(ValueError):
-        board.place_tiles([tile], 0, 0, Direction.NORTH)
+        board.place_tiles(app_config['game']['players'][1], [tile], 0, 0, Direction.NORTH)
 
 
 def test_board_place_tiles_adjacent_succeeds(app_config) -> None:
     board = Board(**app_config)
 
     tile1 = Tile(colors[0], shapes[0])
-    board.place_tiles([tile1], 0, 1, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][0], [tile1], 0, 1, Direction.NORTH)
 
     assert tile1 == board.board_cell(0, 1)
 
     tile2 = Tile(colors[1], shapes[1])
-    board.place_tiles([tile2], 0, 0, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][1], [tile2], 0, 0, Direction.NORTH)
 
     assert tile2 == board.board_cell(0, 0)
 
@@ -68,7 +68,7 @@ def test_board_place_tiles_not_adjacent_raises(app_config) -> None:
     board = Board(**app_config)
 
     tile = Tile(colors[0], shapes[0])
-    board.place_tiles([tile], 0, 0, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][0], [tile], 0, 0, Direction.NORTH)
 
     assert tile == board.board_cell(0, 0)
 
@@ -76,4 +76,4 @@ def test_board_place_tiles_not_adjacent_raises(app_config) -> None:
 
     with pytest.raises(ValueError):
         tile1 = Tile(colors[1], shapes[1])
-        board.place_tiles([tile1], 2, 2, Direction.NORTH)
+        board.place_tiles(app_config['game']['players'][1], [tile1], 2, 2, Direction.NORTH)

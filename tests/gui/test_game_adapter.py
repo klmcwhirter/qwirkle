@@ -29,8 +29,9 @@ def test_game_init_sets_per_config(app_config) -> None:
     assert adapter.bg_color is not None
 
 
-def test_game_reset(app_config):
+def test_game_reset(app_config, fake_game_log):
     adapter = GameDisplayAdapter(**app_config)
+    adapter.game.game_log = fake_game_log
 
     adapter.reset()
 

@@ -1,3 +1,4 @@
+
 import pytest
 
 from qwirkle.logic import Direction
@@ -21,11 +22,11 @@ def test_board_placed_returns_correct_state(app_config) -> None:
     board = Board(**app_config)
 
     tile1 = Tile(colors[0], shapes[0])
-    board.place_tiles([tile1], 0, 0, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][0], [tile1], 0, 0, Direction.NORTH)
     assert tile1 == board.board_cell(0, 0)
 
     tile2 = Tile(colors[0], shapes[1])
-    board.place_tiles([tile2], 0, 1, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][1], [tile2], 0, 1, Direction.NORTH)
     assert tile2 == board.board_cell(0, 1)
 
     tiles = [(0, 0, tile1), (0, 1, tile2)]
@@ -87,7 +88,7 @@ def test_board_str_contains_codes(app_config) -> None:
     tile1 = Tile(colors[0], shapes[0])
     tile2 = Tile(colors[0], shapes[1])
     tiles = [tile1, tile2]
-    board.place_tiles(tiles, 0, 1, Direction.NORTH)
+    board.place_tiles(app_config['game']['players'][0], tiles, 0, 1, Direction.NORTH)
 
     board_str = str(board)
 

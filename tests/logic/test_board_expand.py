@@ -37,7 +37,7 @@ def test_board_expand_board_return_value(app_config, x: int, y: int, dir: Direct
 def test_place_tiles_will_expand_horizontal(app_config, tiles: list[Tile], x: int, new_x: int, dir: Direction) -> None:
     board = Board(**app_config)
 
-    board.place_tiles(tiles, x, 0, dir)
+    board.place_tiles(app_config['game']['players'][0], tiles, x, 0, dir)
 
     assert tiles[0] == board.board_cell(new_x, 0)
 
@@ -52,6 +52,6 @@ def test_place_tiles_will_expand_horizontal(app_config, tiles: list[Tile], x: in
 def test_place_tiles_will_expand_vertical(app_config, tiles: list[Tile], y: int, new_y: int, dir: Direction) -> None:
     board = Board(**app_config)
 
-    board.place_tiles(tiles, 0, y, dir)
+    board.place_tiles(app_config['game']['players'][0], tiles, 0, y, dir)
 
     assert tiles[0] == board.board_cell(0, new_y)

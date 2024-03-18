@@ -25,10 +25,13 @@ def test_hand_init_reduces_bag_size(app_config) -> None:
     assert (bag_size - expected_num_tiles) == len(bag)
 
 
+def tile_strs_from_hand(hand: Hand) -> list[str]:
+    return [s.strip() for s in str(hand).split(': ')[1].split('|')]
+
+
 def hand_all_unique(hand: Hand) -> bool:
-    hand_len = len(hand)
-    uniqs = set(str(hand).split('|'))
-    return len(uniqs) == hand_len
+    uniqs = set(tile_strs_from_hand(hand))
+    return len(uniqs) == 6
 
 
 def test_hand_str_represents_current_hand_state(app_config) -> None:
@@ -45,8 +48,8 @@ def test_hand_str_represents_current_hand_state(app_config) -> None:
     orig_len = len(hand)
 
     # Make sure we can rely on the __str__ method
-    hand_str = str(hand)
-    assert len(hand) == len(hand_str.split('|'))
+    hand_strs = tile_strs_from_hand(hand)
+    assert len(hand) == len(hand_strs)
 
     tile = hand.pop()
 
@@ -54,8 +57,8 @@ def test_hand_str_represents_current_hand_state(app_config) -> None:
     assert len(hand) != orig_len
 
     # Make sure the tile popped was indeed originally in the hand
-    assert str(tile) in hand_str
+    assert str(tile) in hand_strs
 
     # Assume the hand contained all unique tiles, the popped tile should no longer be in its current state
-    hand_str = str(hand)
+    hand_str = '|'.join(tile_strs_from_hand(hand))
     assert str(tile) not in hand_str

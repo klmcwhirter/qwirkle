@@ -33,6 +33,9 @@ settings = {
             Player('human2', 1),
         ]
     },
+    'log': {
+        'path': 'log'
+    },
     'hand': {
         'tiles': 6,
 
