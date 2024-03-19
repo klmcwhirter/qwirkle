@@ -17,12 +17,12 @@ Qwirkle is a game created by Susan McKinley Ross of [Idea Duck](http://ideaduck.
 
 
 ## Test Coverage
-The design has led to putting the game logic in a Python package `qwirkle.logic` that is compoletely headless.
+The design has led to putting the game logic in a Python package `qwirkle.logic` that is completely headless.
 
 This means that:
-* this should be where the most code is
-* this should be where the most risk is
-* this is tested thoroughly!
+* `qwirkle.logic` should be where the most code is
+* `qwirkle.logic` should be where the most risk is
+* `qwirkle.logic` is tested thoroughly!
 
 ```
 ~~COVERAGE~~

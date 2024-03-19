@@ -71,8 +71,10 @@ class GameDisplayAdapter:
                 # pg.QUIT event means the user clicked X to close your window
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
+                        self.game.exit_game()
                         running = False
                     elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                        self.game.exit_game()
                         running = False
 
                     if False:

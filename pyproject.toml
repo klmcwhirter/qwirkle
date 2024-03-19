@@ -44,7 +44,7 @@ dev = [
 [tool.pdm.scripts]
 create.shell = "pdm venv remove -y in-project; pdm install"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage coverage.xml .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist" }
+clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist" }
 clean.help = "Clean environment"
 start = "pdm gui"
 
@@ -69,7 +69,7 @@ addopts = ""
 [tool.mypy]
 mypy_path = "src/ tests/"
 check_untyped_defs = true
-disallow_any_generics = true
+disallow_any_generics = false # until union types are supported
 ignore_missing_imports = true
 no_implicit_optional = true
 show_error_codes = true

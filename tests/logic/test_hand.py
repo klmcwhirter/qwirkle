@@ -62,3 +62,29 @@ def test_hand_str_represents_current_hand_state(app_config) -> None:
     # Assume the hand contained all unique tiles, the popped tile should no longer be in its current state
     hand_str = '|'.join(tile_strs_from_hand(hand))
     assert str(tile) not in hand_str
+
+
+def test_hand_exchange_replaces_tiles(app_config) -> None:
+    bag = Bag(shuffle=True)
+    hand = Hand(game_bag=bag, **app_config)
+
+    # pick a couple tiles to exchange
+    tiles = [hand[0], hand[3]]
+
+    # clear all but the # of tiles to exchange
+    num_tiles = len(tiles)
+    del bag[num_tiles:]
+
+    # verify pre-condition is met
+    assert num_tiles == len(bag)
+
+    # ACT - perform exchange
+    exchange = hand.exchange_tiles(tiles)
+
+    assert num_tiles == len(bag)
+
+    assert num_tiles == len(exchange.old_tiles)
+    assert num_tiles == len(exchange.new_tiles)
+
+    for tile in exchange.new_tiles:
+        assert tile in hand

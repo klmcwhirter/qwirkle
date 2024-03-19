@@ -6,7 +6,6 @@
 # * token in docs/README.md.in for generating a new README.md
 # *----------------------------------------------------------------------*
 
-import os
 import subprocess
 
 # * Constants
