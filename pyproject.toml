@@ -69,7 +69,7 @@ addopts = ""
 [tool.mypy]
 mypy_path = "src/ tests/"
 check_untyped_defs = true
-disallow_any_generics = false # until union types are supported
+disallow_any_generics = false # until Generics union types are supported
 ignore_missing_imports = true
 no_implicit_optional = true
 show_error_codes = true

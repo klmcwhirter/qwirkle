@@ -47,15 +47,16 @@ class GameDisplayAdapter:
         self.board_adapter.draw(screen=self.screen)
         self.draw_hands(screen=self.screen)
 
-    def draw_hands(self, screen: pg.Surface, **_kwargs) -> None:
-        for hand in self.game.hands:
-            self.hand_adapter.draw(screen=screen, hand=hand)
+    def draw_hands(self, /, screen: pg.Surface, **_kwargs) -> None:
+        for player in self.game.players:
+            self.hand_adapter.draw(screen=screen, player=player)
 
     def reset(self) -> None:
         self.game.reset()
         self.bag_adapter = pygame_ce_bag_adapter(self.game.bag)
         self.board_adapter = pygame_ce_board_adapter(self.game.board)
         self.hand_adapter = pygame_ce_hand_adapter(**self.config)
+        logging.debug(pformat(self.config, sort_dicts=False))
 
     def run(self) -> None:
         try:
@@ -77,15 +78,12 @@ class GameDisplayAdapter:
                         self.game.exit_game()
                         running = False
 
-                    if False:
-                        ...
-
+                    if running:
                         # pos = None
 
-                        # if event.type == pg.MOUSEBUTTONUP:
-                        #     pos = self._board.mouse_to_pos(event.pos)
-                        # elif event.type == pg.KEYDOWN and event.key in range(pg.K_0, pg.K_9 + 1):
-                        #     pos = event.key - pg.K_0
+                        if event.type == pg.MOUSEBUTTONUP:
+                            # pos = event.pos
+                            self.game.current_player_index = 1 - self.game.current_player_index
 
                     else:  # have winner
                         if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:

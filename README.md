@@ -43,14 +43,14 @@ src/qwirkle/logic/board.py                          91      0   100%
 src/qwirkle/logic/color.py                          10      0   100%
 src/qwirkle/logic/component_display_adapter.py       4      1    75%
 src/qwirkle/logic/exp_placement.py                  46      0   100%
-src/qwirkle/logic/game.py                           57      2    96%
+src/qwirkle/logic/game.py                           78      2    97%
 src/qwirkle/logic/game_log.py                       40      8    80%
 src/qwirkle/logic/hand.py                           28      0   100%
 src/qwirkle/logic/player.py                          5      0   100%
 src/qwirkle/logic/shape.py                           9      0   100%
 src/qwirkle/logic/tile.py                            9      0   100%
 --------------------------------------------------------------------
-TOTAL                                              529     81    85%
+TOTAL                                              550     81    85%
 
 ```
 

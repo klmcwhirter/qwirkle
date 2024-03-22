@@ -39,9 +39,12 @@ settings = {
     'hand': {
         'tiles': 6,
 
-        'font-size': 20,
+        'font': 'opensans',
+        'font-size': 16,
         'font-color': 'blue',
-        'padx': 20,
+        'active-color': 'yellow',
+        'active-width': 5,
+        'padx': 10,
         'pady': 10,
     },
     'screen': {
@@ -50,13 +53,13 @@ settings = {
         'bg-color': 'gainsboro',
     },
     'tile': {
-        'border-color': 'gray',
-        'border-thickness': 3,
-
+        'font': 'opensans',
         'font-size': 16,
-        'font-color': 'gray',
-        'padx': 10,
-        'pady': 10,
+        'font-color': 'blue',
+        'active-color': 'yellow',
+        'active-width': 5,
+        'padx': 2,
+        'pady': 0,
     },
     'title': 'Qwirkle for Two',
 }
