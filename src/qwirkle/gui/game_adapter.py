@@ -38,7 +38,7 @@ class GameDisplayAdapter:
         self.bg_color: str = str(screen_config['bg-color'])
 
     def get_window_title(self, addon: str | None = None) -> str:
-        return f'{self.config['title']}' if addon is None else f'{self.config['title']} - {addon}'
+        return f'{self.config["title"]}' if addon is None else f'{self.config["title"]} - {addon}'
 
     def draw(self):
         # fill the screen with a color to wipe away anything from last frame

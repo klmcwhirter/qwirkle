@@ -20,14 +20,14 @@ class Bag(list[Tile]):
         # allow for overriding default colors in config
         if 'colors' in self.config:
             if len(self.config['colors']) != len(colors):
-                raise ValueError(f'# of colors in config ({len(self.config['colors'])}) must be {len(colors)}')
+                raise ValueError(f'# of colors in config ({len(self.config["colors"])}) must be {len(colors)}')
 
             set_colors([Color(**c) for c in self.config['colors']])
 
         # allow for overriding default shapes in config
         if 'shapes' in self.config:
             if len(self.config['shapes']) != len(shapes):
-                raise ValueError(f'# of shapes in config ({len(self.config['shapes'])}) must be {len(shapes)}')
+                raise ValueError(f'# of shapes in config ({len(self.config["shapes"])}) must be {len(shapes)}')
 
             set_shapes([Shape(**s) for s in self.config['shapes']])
 
