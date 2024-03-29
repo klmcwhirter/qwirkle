@@ -1,12 +1,9 @@
 """Display Adapter for the Tile concept for pygame-ce"""
 
 
-import logging
-
 import pygame as pg
 
 from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
-from qwirkle.logic.player import Player
 from qwirkle.logic.tile import Tile
 
 
@@ -22,33 +19,18 @@ class TileDisplayAdapter:
         )
         self.font_color = tile_config['font-color']
         self.active_color = tile_config['active-color']
-        self.active_width = tile_config['active-width']
 
         self.padx = tile_config['padx']
         self.pady = tile_config['pady']
 
-        self.screen_width = self.config['screen']['width']
-        self.screen_height = self.config['screen']['height']
-
-    def draw(self, /, **kwargs) -> pg.Rect:
+    def draw(self, /, **kwargs) -> pg.Surface:
         tile: Tile = kwargs['tile']
-        screen: pg.Surface = kwargs['screen']
-        player: Player = kwargs['player']
-        x: int = kwargs['x']
-        y: int = kwargs['y']
+        active: bool = kwargs['active']
 
-        bg_color = self.active_color if player.active else None
-        surf = self.font.render(text=str(tile), antialias=False, color=self.font_color, bgcolor=bg_color)
-        rect = surf.get_rect()
+        bg_color = self.active_color if active else None
+        surf = self.font.render(text=f' {tile} ', antialias=True, color=self.font_color, bgcolor=bg_color)
 
-        x += self.padx
-        y += self.pady
-        rect.topleft = (x, y)
-        logging.debug(f'tile after setting {rect.topleft=}, {rect.bottomleft}, {x=}, {y=}')
-
-        screen.blit(surf, rect)
-
-        return rect
+        return surf
 
 
 def pygame_ce_tile_adapter(**kwargs) -> ComponentDisplayAdapter:

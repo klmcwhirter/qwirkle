@@ -1,7 +1,8 @@
 """Display Adapter for the Hand concept for pygame-ce"""
 
 
-import logging
+import operator
+from functools import reduce
 
 import pygame as pg
 
@@ -23,13 +24,11 @@ class HandDisplayAdapter:
         )
         self.font_color = hand_config['font-color']
         self.active_color = hand_config['active-color']
-        self.active_width = hand_config['active-width']
+        self.inactive_color = hand_config['inactive-color']
+        self.border_width = hand_config['border-width']
 
         self.padx = hand_config['padx']
         self.pady = hand_config['pady']
-
-        self.screen_width = self.config['screen']['width']
-        self.screen_height = self.config['screen']['height']
 
         self.tile_adapter = pygame_ce_tile_adapter(**kwargs)
 
@@ -39,38 +38,48 @@ class HandDisplayAdapter:
         hand: Hand | None = player.hand
 
         if hand is not None:
-            bg_color = self.active_color if player.active else None
-            surf = self.font.render(text=f'{player.name}: ', antialias=False, color=self.font_color, bgcolor=bg_color)
-
-            est_tile_width = 44
-            x_offset = (est_tile_width + self.active_width * 2) * hand.num_tiles * player.number
-            x = (self.screen_width // 3) + x_offset + (self.padx * player.number * 2)
-
-            y = self.screen_height - est_tile_width - self.pady
-
-            for tile in hand:
-                logging.debug(f'hand - {player.name=} {x=}, {y=}')
-                rect = self.tile_adapter.draw(
-                    screen=surf, player=player, tile=tile,
-                    x=x,
-                    y=y)
-                x = x + rect.width
-
+            bg_color = self.active_color if player.active else self.inactive_color
+            surf = self.font.render(text=f' {player.name}: ', antialias=True, color=self.font_color, bgcolor=bg_color)
             surf_rect = surf.get_rect()
+
+            # draw each tile
+            tile_surfs: list[pg.Surface] = [self.tile_adapter.draw(tile=tile, active=player.active) for tile in hand]
+
+            # find sum of tile widths and max height
+            total_width = reduce(operator.add, map(lambda s: s.get_width(), tile_surfs), 0) + surf_rect.width
+            max_height = reduce(max, map(lambda s: s.get_height(), tile_surfs), 0)
+
+            # Create Surface large enough to diplay hand name and all tiles
+            hand_surf = pg.Surface((total_width, max_height))
+            hand_rect = hand_surf.get_rect()
+            hand_surf.fill(self.inactive_color)
+
+            # blit hand name
+            x = 0
+            y = 0
+
+            hand_surf.blit(surf, (x, y))
+            x += surf_rect.width
+
+            # blit each tile
+            for tile_surf in tile_surfs:
+                hand_surf.blit(tile_surf, (x, y))
+                x += tile_surf.get_width()
 
             if player.active:
                 # draw a wider border
-                surf_rect.width += (self.active_width * 2)
-                surf_rect.height += (self.active_width * 2)
-                surf_rect.topleft = (x - self.active_width, y - self.active_width)
+                hand_rect.width += (self.border_width * 2)
+                hand_rect.height += (self.border_width * 2)
+                hand_rect.topleft = (0, 0)
+                pg.draw.rect(surface=hand_surf, color=self.active_color, rect=hand_rect, width=self.border_width)
 
-                pg.draw.rect(surface=surf, color=self.active_color, rect=surf_rect, width=self.active_width)
+            x_offset = hand_rect.width * player.number  # display side by side
 
-                # # reset for next tile
-                # rect.topleft = (x, y)
-            surf_rect = surf.get_rect()
+            x = (screen.get_width() // 3) + x_offset
+            y = screen.get_height() - max_height - self.pady
 
-            screen.blit(surf, surf_rect)
+            screen_rect = pg.rect.Rect(x, y, hand_rect.width, hand_rect.height)
+            screen.blit(hand_surf, screen_rect)
 
 
 def pygame_ce_hand_adapter(**kwargs) -> ComponentDisplayAdapter:

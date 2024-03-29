@@ -14,10 +14,9 @@ def test_tile_init_sets_per_config(app_config) -> None:
 
     assert adapter.font is not None
     assert adapter.font_color is not None
+    assert adapter.active_color is not None
     assert adapter.padx is not None
     assert adapter.pady is not None
-    assert adapter.screen_height is not None
-    assert adapter.screen_width is not None
 
 
 def test_pygame_ce_tile_adapter_provides_adapter(app_config) -> None:

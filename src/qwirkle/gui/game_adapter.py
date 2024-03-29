@@ -81,11 +81,11 @@ class GameDisplayAdapter:
                 if running:
                     # pos = None
 
-                    if event.type == pg.MOUSEBUTTONUP:
+                    if event.type == pg.MOUSEBUTTONUP and event.button == pg.BUTTON_LEFT:
                         # pos = event.pos
                         self.game.current_player_index = 1 - self.game.current_player_index
 
-                else:  # have winner
+                # else:  # have winner
                     if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                         self.reset()
 

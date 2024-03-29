@@ -53,4 +53,4 @@ Example:
 # References
 - [marianosegura/Qwirkle](https://github.com/marianosegura/Qwirkle) - pits 2 hand coded bots against each other (pygame)
 - [MarcLindenbach/qwirkle](https://github.com/MarcLindenbach/qwirkle) (TUI - python 2.x)
-- [stijn-geerits/Qwirkle](https://github.com/stijn-geerits/Qwirkle) - junior level impl (pygame)
+- [stijn-geerits/Qwirkle](https://github.com/stijn-geerits/Qwirkle) - grid impl (pygame)
