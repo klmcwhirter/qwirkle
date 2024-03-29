@@ -1,5 +1,6 @@
 """qwirkle pygame-ce adapter"""
 
+import asyncio
 import logging
 from pprint import pformat
 from typing import Any
@@ -58,52 +59,52 @@ class GameDisplayAdapter:
         self.hand_adapter = pygame_ce_hand_adapter(**self.config)
         logging.debug(pformat(self.config, sort_dicts=False))
 
-    def run(self) -> None:
-        try:
-            pg.display.set_caption(self.get_window_title())
-            self.screen = pg.display.set_mode((self.width, self.height))
+    async def run(self) -> None:
+        pg.display.set_caption(self.get_window_title())
+        self.screen = pg.display.set_mode((self.width, self.height))
 
-            self.reset()
-            clock = pg.time.Clock()
+        self.reset()
+        clock = pg.time.Clock()
 
-            running = True
-            while running:
-                # poll for events
-                # pg.QUIT event means the user clicked X to close your window
-                for event in pg.event.get():
-                    if event.type == pg.QUIT:
-                        self.game.exit_game()
-                        running = False
-                    elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
-                        self.game.exit_game()
-                        running = False
+        running: bool = True
+        while running:
+            # poll for events
+            # pg.QUIT event means the user clicked X to close your window
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    self.game.exit_game()
+                    running = False
+                elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                    self.game.exit_game()
+                    running = False
 
-                    if running:
-                        # pos = None
+                if running:
+                    # pos = None
 
-                        if event.type == pg.MOUSEBUTTONUP:
-                            # pos = event.pos
-                            self.game.current_player_index = 1 - self.game.current_player_index
+                    if event.type == pg.MOUSEBUTTONUP:
+                        # pos = event.pos
+                        self.game.current_player_index = 1 - self.game.current_player_index
 
-                    else:  # have winner
-                        if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
-                            self.reset()
+                else:  # have winner
+                    if event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+                        self.reset()
 
-                # RENDER YOUR GAME HERE
-                self.draw()
+            # RENDER YOUR GAME HERE
+            self.draw()
 
-                # flip() the display to put your work on screen
-                pg.display.flip()
+            # flip() the display to put your work on screen
+            pg.display.flip()
 
-                clock.tick(60)  # limits FPS to 60
-        finally:
-            pg.quit()
+            clock.tick(60)  # limits FPS to 60
+
+            await asyncio.sleep(0)
 
 
-def pygame_ce_game_adapter(**kwargs) -> None:
+async def pygame_ce_game_adapter(**kwargs) -> None:
     logging.debug('Starting game')
     try:
         game = GameDisplayAdapter(**kwargs)
-        game.run()
+        await game.run()
     finally:
         logging.debug('Exiting game')
+        pg.quit()

@@ -6,11 +6,9 @@ authors = [{ name = "Kevin McWhirter", email = "klmcw@yahoo.com" }]
 license = { text = "MIT" }
 readme = "README.md"
 
-requires-python = ">=3.11,<3.12"
+requires-python = ">=3.12"
 
-dependencies = [
-    "pygame-ce>=2.4.1",
-]
+dependencies = ["pygame-ce>=2.4.1", "pygbag>=0.9.0"]
 
 [project.urls]
 Homepage = "https://github.com/klmcwhirter/qwirkle"
@@ -46,11 +44,12 @@ dev = [
 [tool.pdm.scripts]
 create.shell = "pdm venv remove -y in-project; pdm install"
 clean.shell = "find . -type d -name __pycache__ -exec rm -fr {} \\;;for d in ${TO_DEL};do echo $d;rm -fr $d;done"
-clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist" }
+clean.env = { TO_DEL = "build .coverage coverage.xml log .mypy_cache .pdm-build __pycache__ .pytest_cache src/qwirkle.egg-info .tox dist src/build" }
 clean.help = "Clean environment"
 start = "pdm gui"
 
 gui.cmd = "python -m qwirkle.gui"
+web.cmd = "pygbag --width 1600 --height 900 --app_name qwirkle --title Qwirkle {args} src/"
 
 flake8.cmd = "flake8 src/ tests/"
 mypy.cmd = "mypy src/ tests/"
