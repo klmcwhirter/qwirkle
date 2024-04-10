@@ -58,8 +58,10 @@ settings = {
         'font-size': 16,
         'font-color': 'blue',
         'active-color': 'yellow',
+        'inactive-color': 'gainsboro',
         'padx': 2,
-        'pady': 0,
+        'pady': 2,
     },
     'title': 'Qwirkle for Two',
+    'verbose': True,
 }

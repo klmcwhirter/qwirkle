@@ -51,13 +51,16 @@ start = "pdm gui"
 gui.cmd = "python -m qwirkle.gui"
 web.cmd = "pygbag --width 1600 --height 900 --app_name qwirkle --title Qwirkle {args} src/"
 
+tiles.shell = "python ./etc/gen_tiles.py"
+
+readmecov.shell = "pytest --cov=qwirkle --cov-report=term | sed -n '/--------/,/^TOTAL/p'"
+readmecov.help = "Produce test coverage text snippet for docs/README.md.in"
+
 flake8.cmd = "flake8 src/ tests/"
 mypy.cmd = "mypy src/ tests/"
 test.cmd = "pytest"
 testcov.cmd = "pytest --cov=qwirkle --cov-report xml:coverage.xml --cov-report term"
 testcov.help = "Produce test coverage xml and term reports"
-readmecov.shell = "pytest --cov=qwirkle --cov-report=term | sed -n '/--------/,/^TOTAL/p'"
-readmecov.help = "Produce test coverage text snippet for docs/README.md.in"
 tox.cmd = "tox"
 
 [tool.autopep8]

@@ -32,51 +32,56 @@ class HandDisplayAdapter:
 
         self.tile_adapter = pygame_ce_tile_adapter(**kwargs)
 
+    def draw_hand(self, hand: Hand, player: Player) -> tuple[pg.Surface, pg.rect.Rect]:
+        bg_color = self.active_color if player.active else self.inactive_color
+        name_surf = self.font.render(text=f' {player.name}: ', antialias=True, color=self.font_color, bgcolor=bg_color)
+        name_surf_rect = name_surf.get_rect()
+
+        # draw each tile
+        tile_surfs: list[pg.Surface] = [self.tile_adapter.draw(tile=tile, active=player.active) for tile in hand]
+
+        # find sum of tile widths and max height
+        total_width = reduce(operator.add, map(lambda s: s.get_width(), tile_surfs), 0) + name_surf_rect.width
+        max_height = reduce(max, map(lambda s: s.get_height(), tile_surfs), 0)
+
+        # Create Surface large enough to diplay hand name and all tiles
+        hand_surf = pg.Surface((total_width, max_height))
+        hand_rect = hand_surf.get_rect()
+        hand_surf.fill(bg_color)
+
+        x = 0
+        y = 0
+
+        # blit hand name
+        hand_surf.blit(name_surf, (x, name_surf_rect.height // 3))
+        x += name_surf_rect.width
+
+        # blit each tile
+        for tile_surf in tile_surfs:
+            hand_surf.blit(tile_surf, (x, y))
+            x += tile_surf.get_width()
+
+        # draw a wider border
+        hand_rect.width += (self.border_width * 2)
+        hand_rect.height += (self.border_width * 2)
+        hand_rect.topleft = (0, 0)
+
+        pg.draw.rect(surface=hand_surf, color=bg_color, rect=hand_rect, width=self.border_width)
+
+        return (hand_surf, hand_rect)
+
     def draw(self, /, **kwargs) -> None:
         screen: pg.Surface = kwargs['screen']
         player: Player = kwargs['player']
         hand: Hand | None = player.hand
 
         if hand is not None:
-            bg_color = self.active_color if player.active else self.inactive_color
-            surf = self.font.render(text=f' {player.name}: ', antialias=True, color=self.font_color, bgcolor=bg_color)
-            surf_rect = surf.get_rect()
-
-            # draw each tile
-            tile_surfs: list[pg.Surface] = [self.tile_adapter.draw(tile=tile, active=player.active) for tile in hand]
-
-            # find sum of tile widths and max height
-            total_width = reduce(operator.add, map(lambda s: s.get_width(), tile_surfs), 0) + surf_rect.width
-            max_height = reduce(max, map(lambda s: s.get_height(), tile_surfs), 0)
-
-            # Create Surface large enough to diplay hand name and all tiles
-            hand_surf = pg.Surface((total_width, max_height))
-            hand_rect = hand_surf.get_rect()
-            hand_surf.fill(self.inactive_color)
-
-            # blit hand name
-            x = 0
-            y = 0
-
-            hand_surf.blit(surf, (x, y))
-            x += surf_rect.width
-
-            # blit each tile
-            for tile_surf in tile_surfs:
-                hand_surf.blit(tile_surf, (x, y))
-                x += tile_surf.get_width()
-
-            if player.active:
-                # draw a wider border
-                hand_rect.width += (self.border_width * 2)
-                hand_rect.height += (self.border_width * 2)
-                hand_rect.topleft = (0, 0)
-                pg.draw.rect(surface=hand_surf, color=self.active_color, rect=hand_rect, width=self.border_width)
+            hand_surf, hand_rect = self.draw_hand(hand, player)
 
             x_offset = hand_rect.width * player.number  # display side by side
 
             x = (screen.get_width() // 3) + x_offset
-            y = screen.get_height() - max_height - self.pady
+            y = screen.get_height() - hand_rect.height - self.pady
 
             screen_rect = pg.rect.Rect(x, y, hand_rect.width, hand_rect.height)
             screen.blit(hand_surf, screen_rect)

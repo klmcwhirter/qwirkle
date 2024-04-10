@@ -3,6 +3,7 @@
 
 import pygame as pg
 
+from qwirkle.gui import tile_set
 from qwirkle.logic.component_display_adapter import ComponentDisplayAdapter
 from qwirkle.logic.tile import Tile
 
@@ -19,16 +20,29 @@ class TileDisplayAdapter:
         )
         self.font_color = tile_config['font-color']
         self.active_color = tile_config['active-color']
+        self.inactive_color = tile_config['inactive-color']
 
         self.padx = tile_config['padx']
         self.pady = tile_config['pady']
+
+        tile_set.init()
 
     def draw(self, /, **kwargs) -> pg.Surface:
         tile: Tile = kwargs['tile']
         active: bool = kwargs['active']
 
-        bg_color = self.active_color if active else None
-        surf = self.font.render(text=f' {tile} ', antialias=True, color=self.font_color, bgcolor=bg_color)
+        bg_color = self.active_color if active else self.inactive_color
+        # surf = self.font.render(text=f' {tile} ', antialias=True, color=self.font_color, bgcolor=bg_color)
+
+        # surf = tile_set.tile_images[str(tile)]
+
+        surf = pg.Surface([
+            tile_set.TILE_SIDE + (self.padx * 2),
+            tile_set.TILE_SIDE + (self.pady * 2)
+        ])
+        # surf.set_colorkey('black')
+        surf.fill(bg_color)
+        surf.blit(source=tile_set.tile_images[str(tile)], dest=[self.padx, self.pady])
 
         return surf
 

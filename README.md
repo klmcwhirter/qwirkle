@@ -30,27 +30,29 @@ Name                                             Stmts   Miss  Cover
 --------------------------------------------------------------------
 src/qwirkle/__init__.py                              0      0   100%
 src/qwirkle/config.py                                3      0   100%
-src/qwirkle/gui/__init__.py                          3      0   100%
-src/qwirkle/gui/__main__.py                          5      5     0%
+src/qwirkle/gui/__init__.py                          0      0   100%
+src/qwirkle/gui/__main__.py                          6      6     0%
 src/qwirkle/gui/bag_adapter.py                      23      5    78%
 src/qwirkle/gui/board_adapter.py                    31      9    71%
-src/qwirkle/gui/game_adapter.py                     69     34    51%
-src/qwirkle/gui/hand_adapter.py                     23      7    70%
-src/qwirkle/gui/tile_adapter.py                     22      6    73%
+src/qwirkle/gui/game_adapter.py                     72     36    50%
+src/qwirkle/gui/hand_adapter.py                     54     31    43%
+src/qwirkle/gui/tile_adapter.py                     25      7    72%
+src/qwirkle/gui/tile_set.py                         15      0   100%
+src/qwirkle/gui/tiles.py                             1      0   100%
 src/qwirkle/logic/__init__.py                       22      4    82%
 src/qwirkle/logic/bag.py                            29      0   100%
 src/qwirkle/logic/board.py                          91      0   100%
 src/qwirkle/logic/color.py                          10      0   100%
 src/qwirkle/logic/component_display_adapter.py       4      1    75%
 src/qwirkle/logic/exp_placement.py                  46      0   100%
-src/qwirkle/logic/game.py                           78      2    97%
+src/qwirkle/logic/game.py                           85      4    95%
 src/qwirkle/logic/game_log.py                       40      8    80%
-src/qwirkle/logic/hand.py                           28      0   100%
-src/qwirkle/logic/player.py                          5      0   100%
+src/qwirkle/logic/hand.py                           32      0   100%
+src/qwirkle/logic/player.py                         11      0   100%
 src/qwirkle/logic/shape.py                           9      0   100%
 src/qwirkle/logic/tile.py                            9      0   100%
 --------------------------------------------------------------------
-TOTAL                                              550     81    85%
+TOTAL                                              618    111    82%
 
 ```
 

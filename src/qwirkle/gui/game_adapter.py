@@ -57,7 +57,7 @@ class GameDisplayAdapter:
         self.bag_adapter = pygame_ce_bag_adapter(self.game.bag)
         self.board_adapter = pygame_ce_board_adapter(self.game.board)
         self.hand_adapter = pygame_ce_hand_adapter(**self.config)
-        logging.debug(pformat(self.config, sort_dicts=False))
+        # logging.debug(pformat(self.config, sort_dicts=False))
 
     async def run(self) -> None:
         pg.display.set_caption(self.get_window_title())
